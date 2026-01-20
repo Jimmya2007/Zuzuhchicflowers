@@ -1,0 +1,25 @@
+<svg width="200" height="100" viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Z Letter with floral design -->
+  <path d="M20 10 L80 10 L20 50 L80 50 L20 90 L80 90" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Floral decorations -->
+  <!-- Orange Rose -->
+  <circle cx="140" cy="25" r="8" fill="#FFB380" opacity="0.9"/>
+  <circle cx="140" cy="25" r="6" fill="#FFA366" opacity="0.8"/>
+  <circle cx="140" cy="25" r="4" fill="#FF9966" opacity="0.9"/>
+  
+  <!-- Pink Rose -->
+  <circle cx="170" cy="45" r="7" fill="#FFB3C1" opacity="0.9"/>
+  <circle cx="170" cy="45" r="5" fill="#FFA3B5" opacity="0.8"/>
+  <circle cx="170" cy="45" r="3" fill="#FF93A9" opacity="0.9"/>
+  
+  <!-- Blue Rose -->
+  <circle cx="150" cy="55" r="8" fill="#A3C1D9" opacity="0.9"/>
+  <circle cx="150" cy="55" r="6" fill="#93B1C9" opacity="0.8"/>
+  <circle cx="150" cy="55" r="4" fill="#83A1B9" opacity="0.9"/>
+  
+  <!-- Leaves -->
+  <ellipse cx="155" cy="35" rx="8" ry="3" fill="#90C090" opacity="0.7" transform="rotate(30 155 35)"/>
+  <ellipse cx="165" cy="38" rx="7" ry="3" fill="#80B080" opacity="0.7" transform="rotate(-20 165 38)"/>
+  <ellipse cx="148" cy="42" rx="6" ry="3" fill="#90C090" opacity="0.7" transform="rotate(45 148 42)"/>
+</svg>
