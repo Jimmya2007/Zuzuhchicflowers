@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Users, Eye, ArrowLeft } from 'lucide-react';
+import { Users, Eye, ArrowLeft, ShoppingCart, Calendar } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/app/components/ui/card';
 import { Button } from '@/app/components/ui/button';
 
@@ -18,6 +18,8 @@ export function DashboardPage({ onNavigate, accessToken, userName }: DashboardPa
   const [stats, setStats] = useState({
     totalVisits: 0,
     uniqueVisitors: 0,
+    totalOrders: 0,
+    totalReservations: 0,
   });
 
   const [topPages, setTopPages] = useState<PageView[]>([]);
@@ -27,6 +29,8 @@ export function DashboardPage({ onNavigate, accessToken, userName }: DashboardPa
     const mockData = {
       totalVisits: 1234,
       uniqueVisitors: 856,
+      totalOrders: 47,
+      totalReservations: 23,
     };
 
     const mockTopPages: PageView[] = [
@@ -71,12 +75,12 @@ export function DashboardPage({ onNavigate, accessToken, userName }: DashboardPa
         ) : (
           <div className="space-y-6">
             {/* Stats */}
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               <Card>
                 <CardHeader className="pb-3">
                   <CardTitle className="text-lg font-medium flex items-center gap-2">
                     <Eye className="h-5 w-5 text-blue-500" />
-                    Visites Totales
+                    Visites
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -90,12 +94,40 @@ export function DashboardPage({ onNavigate, accessToken, userName }: DashboardPa
                 <CardHeader className="pb-3">
                   <CardTitle className="text-lg font-medium flex items-center gap-2">
                     <Users className="h-5 w-5 text-green-500" />
-                    Visiteurs Uniques
+                    Visiteurs
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="text-4xl font-bold text-gray-900">
                     {stats.uniqueVisitors.toLocaleString()}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg font-medium flex items-center gap-2">
+                    <ShoppingCart className="h-5 w-5 text-purple-500" />
+                    Commandes
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-4xl font-bold text-gray-900">
+                    {stats.totalOrders}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg font-medium flex items-center gap-2">
+                    <Calendar className="h-5 w-5 text-pink-500" />
+                    Réservations
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-4xl font-bold text-gray-900">
+                    {stats.totalReservations}
                   </div>
                 </CardContent>
               </Card>
