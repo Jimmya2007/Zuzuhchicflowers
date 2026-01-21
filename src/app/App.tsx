@@ -12,6 +12,7 @@ import { CollaborationsPage } from '@/app/components/pages/CollaborationsPage';
 import { ReservationPage } from '@/app/components/pages/ReservationPage';
 import { AdminLoginPage } from '@/app/components/pages/AdminLoginPage';
 import { AdminPage } from '@/app/components/pages/AdminPage';
+import { DashboardPage } from '@/app/components/pages/DashboardPage';
 import { Toaster } from '@/app/components/ui/sonner';
 
 export default function App() {
@@ -56,6 +57,19 @@ export default function App() {
           accessToken={accessToken}
           userName={userName}
           onLogout={handleLogout}
+        />
+      );
+    }
+
+    if (currentPage === 'dashboard') {
+      if (!isAuthenticated) {
+        return <AdminLoginPage onNavigate={handleNavigate} onLoginSuccess={handleLoginSuccess} />;
+      }
+      return (
+        <DashboardPage 
+          onNavigate={handleNavigate} 
+          accessToken={accessToken}
+          userName={userName}
         />
       );
     }

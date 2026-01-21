@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, LogOut, Package, Image as ImageIcon, DollarSign, FileText, Tag, Layers } from 'lucide-react';
+import { Plus, Edit, Trash2, LogOut, Package, Image as ImageIcon, DollarSign, FileText, Tag, Layers, BarChart3 } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
 import { Label } from '@/app/components/ui/label';
@@ -200,6 +200,14 @@ export function AdminPage({ onNavigate, accessToken, userName, onLogout }: Admin
               <p className="text-white/90">Bienvenue, {userName}</p>
             </div>
             <div className="flex gap-3">
+              <Button
+                variant="outline"
+                className="bg-white/10 hover:bg-white/20 text-white border-white/30"
+                onClick={() => onNavigate('dashboard')}
+              >
+                <BarChart3 className="w-4 h-4 mr-2" />
+                Dashboard
+              </Button>
               <Button
                 variant="outline"
                 className="bg-white/10 hover:bg-white/20 text-white border-white/30"
