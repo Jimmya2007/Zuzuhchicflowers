@@ -127,7 +127,7 @@ export function BouquetsPage({ onNavigate }: BouquetsPageProps) {
     },
     {
       id: 10,
-      name: "boutquet artificielles",
+      name: "bouquet artificielles",
       category: "Spécial",
       price: "5000 Gdes",
       description: "Création vibrante mêlant roses de différentes couleurs pour une explosion de joie",
@@ -164,8 +164,8 @@ export function BouquetsPage({ onNavigate }: BouquetsPageProps) {
     {
       id: 14,
       name: "Composition Romantique",
-      category: "Artificielles",
-      price: "7000 Gdes",
+      category: "Naturelles",
+      price: "$130 US",
       description: "Mélange élégant de roses roses et blanches pour un effet romantique",
       image: bouquet14,
       features: ["Roses roses et blanches", "Style romantique", "Arrangement harmonieux"]
@@ -190,7 +190,7 @@ export function BouquetsPage({ onNavigate }: BouquetsPageProps) {
     },
     {
       id: 17,
-      name: "Boutquet Argente Passion",
+      name: "Bouquet Argente Passion",
       category: "Artificielles",
       price: "*** Gdes",
       description: "Bouquet énergique de roses orange vif pour transmettre votre enthousiasme",
@@ -217,7 +217,7 @@ export function BouquetsPage({ onNavigate }: BouquetsPageProps) {
     },
     {
       id: 20,
-      name: "Bouquet Abricot Douceur",
+      name: "Bouquet Douceur",
       category: "Artificielles",
       price: "2000 Gdes",
       description: "Composition douce de roses abricot avec emballage élégant",
@@ -235,7 +235,7 @@ export function BouquetsPage({ onNavigate }: BouquetsPageProps) {
     },
     {
       id: 22,
-      name: "Composition Arc-en-ciel",
+      name: "Fleur",
       category: "naturelles",
       price: "2000 Gdes",
       description: "Création spectaculaire mêlant toutes les couleurs de l'arc-en-ciel",
@@ -273,7 +273,7 @@ export function BouquetsPage({ onNavigate }: BouquetsPageProps) {
       id: 26,
       name: "Composition Bohème",
       category: "artificielles",
-      price: "4500 Gdes",
+      price: "2500 Gdes",
       description: "Arrangement bohème avec roses aux tons naturels et sauvages",
       image: bouquet26,
       features: ["Style bohème", "Tons naturels", "Design libre"]
@@ -291,7 +291,7 @@ export function BouquetsPage({ onNavigate }: BouquetsPageProps) {
       id: 28,
       name: "Bouquet Caramel Douceur",
       category: "artificielles",
-      price: "4500 Gdes",
+      price: "8500 Gdes",
       description: "Composition chaleureuse de roses caramel avec emballage raffiné",
       image: bouquet28,
       features: ["Roses caramel", "Tons chauds", "Présentation soignée"]
@@ -300,7 +300,7 @@ export function BouquetsPage({ onNavigate }: BouquetsPageProps) {
       id: 29,
       name: "Roses Platine Luxe",
       category: "artificielles",
-      price: "8500 Gdes",
+      price: "5000 Gdes",
       description: "Arrangement exclusif de roses platine dans un écrin de luxe",
       image: bouquet29,
       features: ["Roses platine", "Édition limitée", "Emballage luxueux"]
@@ -309,7 +309,7 @@ export function BouquetsPage({ onNavigate }: BouquetsPageProps) {
       id: 30,
       name: "Composition Tournesol",
       category: "Artificielles",
-      price: "7500 Gdes",
+      price: "5000 Gdes",
       description: "Bouquet champêtre avec roses et touches de verdure fraîche",
       image: bouquet30,
       features: ["Style jardin", "Verdure incluse", "Aspect naturel"]

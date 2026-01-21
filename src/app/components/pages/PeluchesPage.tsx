@@ -42,6 +42,7 @@ import peluche36 from '@/assets/peluche_36.jpeg';
 import peluche37 from '@/assets/peluche_37.jpeg';
 import peluche38 from '@/assets/peluche_38.jpeg';
 import peluche39 from '@/assets/peluche_39.jpeg';
+import pl1 from '@/assets/PL1.jpg';
 
 interface PeluchesPageProps {
   onNavigate: (page: string) => void;
@@ -51,6 +52,15 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
   const peluches = [
     {
       id: 1,
+      name: "Peluche 120 cm",
+      size: "120cm",
+      color: "",
+      price: "11500 Gdes",
+      description: "Peluche 120 cm",
+      image: pl1
+    },
+    {
+      id: 2,
       name: "Peluche",
       size: "20cm",
       color: "Beige ",
@@ -59,7 +69,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche1
     },
     {
-      id: 2,
+      id: 3,
       name: "Peluche",
       size: "20cm",
       color: "Beige",
@@ -68,7 +78,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche2
     },
     {
-      id: 3,
+      id: 4,
       name: "Peluche rouge",
       size: "20cm",
       color: "Rouge",
@@ -77,7 +87,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche3
     },
     {
-      id: 4,
+      id: 5,
       name: "Peluche rouge",
       size: "60cm",
       color: "Rouge",
@@ -86,7 +96,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche4
     },
     {
-      id: 5,
+      id: 6,
       name: "Peluche",
       size: "25cm",
       color: "",
@@ -95,7 +105,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche5
     },
     {
-      id: 6,
+      id: 7,
       name: "peluche Rouge Romantique",
       size: "32cm",
       color: "rouge foncé",
@@ -104,7 +114,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche6
     },
     {
-      id: 7,
+      id: 8,
       name: "Peluche rouge Élégant",
       size: "20cm",
       color: "rouge",
@@ -113,7 +123,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche7
     },
     {
-      id: 8,
+      id: 9,
       name: "Ours Rose Nœud Rose",
       size: "20 cm",
       color: "Blanc/Rose",
@@ -122,7 +132,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche8
     },
     {
-      id: 9,
+      id: 10,
       name: "Peluche rouge",
       size: "20cm",
       color: "Rouge",
@@ -131,7 +141,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche9
     },
     {
-      id: 10,
+      id: 11,
       name: "peluche Poudré",
       size: "35cm",
       color: "blanc",
@@ -140,7 +150,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche10
     },
     {
-      id: 11,
+      id: 12,
       name: "Peluche",
       size: "20cm",
       color: "",
@@ -149,7 +159,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche11
     },
     {
-      id: 12,
+      id: 13,
       name: "peluche blanc",
       size: "20cm",
       color: "Blanc",
@@ -158,7 +168,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche12
     },
     {
-      id: 13,
+      id: 14,
       name: "Peluche",
       size: "25cm",
       color: "Beige",
@@ -167,7 +177,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche13
     },
     {
-      id: 14,
+      id: 15,
       name: "Peluche",
       size: "60cm",
       color: "Rouge clair",
@@ -176,7 +186,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche14
     },
     {
-      id: 15,
+      id: 16,
       name: "Peluche",
       size: "25 cm",
       color: "marron",
@@ -185,7 +195,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche15
     },
     {
-      id: 16,
+      id: 17,
       name: "Peluche",
       size: "70cm",
       color: "rouge foncé",
@@ -194,7 +204,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche16
     },
     {
-      id: 17,
+      id: 18,
       name: "Peluche",
       size: "60cm",
       color: "rose",
@@ -203,7 +213,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche17
     },
     {
-      id: 18,
+      id: 19,
       name: "Peluche",
       size: "90cm",
       color: "blanc et rouge",
@@ -212,7 +222,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche18
     },
     {
-      id: 19,
+      id: 20,
       name: "Peluche",
       size: "70cm",
       color: "Beige",
@@ -221,7 +231,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche19
     },
     {
-      id: 20,
+      id: 21,
       name: "Peluche",
       size: "62cm",
       color: "Blanc pur",
@@ -230,7 +240,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche20
     },
     {
-      id: 21,
+      id: 22,
       name: "Peluche",
       size: "80cm",
       color: "Rouge",
@@ -239,7 +249,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche21
     },
     {
-      id: 22,
+      id: 23,
       name: "Peluche",
       size: "52cm",
       color: "Rose pastel",
@@ -248,7 +258,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche22
     },
     {
-      id: 23,
+      id: 24,
       name: "Peluche",
       size: "90 cm",
       color: "Caramel",
@@ -257,7 +267,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche23
     },
     {
-      id: 24,
+      id: 25,
       name: "Peluche",
       size: "55cm",
       color: "Rouge",
@@ -266,7 +276,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche24
     },
     {
-      id: 25,
+      id: 26,
       name: "Peluche",
       size: "62cm",
       color: "Blanc",
@@ -275,7 +285,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche25
     },
     {
-      id: 26,
+      id: 27,
       name: "Peluche 26",
       size: "20cm",
       color: "Blanc",
@@ -284,7 +294,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche26
     },
     {
-      id: 27,
+      id: 28,
       name: "Peluche",
       size: "25cm",
       color: "Beige",
@@ -293,7 +303,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche27
     },
     {
-      id: 28,
+      id: 29,
       name: "Peluche",
       size: "25 cm",
       color: "Blanc",
@@ -302,7 +312,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche28
     },
     {
-      id: 29,
+      id: 30,
       name: "Peluche",
       size: "32cm",
       color: "blanc",
@@ -311,7 +321,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche29
     },
     {
-      id: 30,
+      id: 31,
       name: "Peluche 30",
       size: "32cm",
       color: "Marron",
@@ -320,7 +330,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche30
     },
     {
-      id: 31,
+      id: 32,
       name: "Peluche 31",
       size: "20cm",
       color: "Blanc",
@@ -329,7 +339,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche31
     },
     {
-      id: 32,
+      id: 33,
       name: "Peluche 32",
       size: "25cm",
       color: "Beige",
@@ -338,7 +348,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche32
     },
     {
-      id: 33,
+      id: 34,
       name: "Ours Blanc Coton",
       size: "20cm",
       color: "Blanc",
@@ -347,7 +357,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche33
     },
     {
-      id: 34,
+      id: 35,
       name: "Ours Rouge Tendre XXL",
       size: "20cm",
       color: "Rouge",
@@ -356,7 +366,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche34
     },
     {
-      id: 35,
+      id: 36,
       name: "Peluche",
       size: "25cm",
       color: "Beige",
@@ -365,7 +375,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche35
     },
     {
-      id: 36,
+      id: 37,
       name: "Peluche 36",
       size: "20cm",
       color: "Rose",
@@ -374,7 +384,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche36
     },
     {
-      id: 37,
+      id: 38,
       name: "Peluche",
       size: "25cm",
       color: "Caramel",
@@ -383,7 +393,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche37
     },
     {
-      id: 38,
+      id: 39,
       name: "peluche",
       size: "50cm",
       color: "",
@@ -392,7 +402,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche38
     },
     {
-      id: 39,
+      id: 40,
       name: "Peluche 39",
       size: "60cm",
       color: "Marron",
