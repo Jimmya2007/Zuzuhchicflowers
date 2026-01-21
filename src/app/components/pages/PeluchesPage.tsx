@@ -28,14 +28,20 @@ import peluche22 from '@/assets/peluche_22.jpeg';
 import peluche23 from '@/assets/peluche_23.jpeg';
 import peluche24 from '@/assets/peluche_24.jpeg';
 import peluche25 from '@/assets/peluche_25.jpeg';
+import peluche26 from '@/assets/peluche_26.jpeg';
 import peluche27 from '@/assets/peluche_27.jpeg';
 import peluche28 from '@/assets/peluche_28.jpeg';
 import peluche29 from '@/assets/peluche_29.jpeg';
+import peluche30 from '@/assets/peluche_30.jpeg';
+import peluche31 from '@/assets/peluche_31.jpeg';
+import peluche32 from '@/assets/peluche_32.jpeg';
 import peluche33 from '@/assets/peluche_33.jpeg';
 import peluche34 from '@/assets/peluche_34.jpeg';
 import peluche35 from '@/assets/peluche_35.jpeg';
+import peluche36 from '@/assets/peluche_36.jpeg';
 import peluche37 from '@/assets/peluche_37.jpeg';
 import peluche38 from '@/assets/peluche_38.jpeg';
+import peluche39 from '@/assets/peluche_39.jpeg';
 
 interface PeluchesPageProps {
   onNavigate: (page: string) => void;
@@ -45,52 +51,52 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
   const peluches = [
     {
       id: 1,
-      name: "Ours Rose Tendre",
+      name: "Peluche",
       size: "20cm",
-      color: " ",
+      color: "Beige ",
       price: "1000 Gdes",
-      description: "Ours en peluche doux et élégant, parfait pour accompagner un bouquet",
+      description: "",
       image: peluche1
     },
     {
       id: 2,
-      name: "Ours Beige Classique",
+      name: "Peluche",
       size: "20cm",
       color: "Beige",
       price: "1000 Gdes",
-      description: "Peluche classique et intemporelle pour toutes occasions",
+      description: "",
       image: peluche2
     },
     {
       id: 3,
-      name: "Peluche rouge Pureté",
+      name: "Peluche rouge",
       size: "20cm",
       color: "Rouge",
       price: "1000 Gdes",
-      description: "Adorable ours blanc symbolisant la pureté et la douceur",
+      description: "",
       image: peluche3
     },
     {
       id: 4,
-      name: "Peluche rouge Pureté",
+      name: "Peluche rouge",
       size: "60cm",
       color: "Rouge",
       price: "4000 Gdes",
-      description: "Grande peluche luxueuse avec finition premium",
+      description: "",
       image: peluche4
     },
     {
       id: 5,
-      name: "Ours Marron Câlin",
+      name: "Peluche",
       size: "25cm",
       color: "",
       price: "1500 Goudes",
-      description: "Ours chaleureux et réconfortant pour des moments doux",
+      description: "Peluche",
       image: peluche5
     },
     {
       id: 6,
-      name: "Ours Rouge Romantique",
+      name: "peluche Rouge Romantique",
       size: "32cm",
       color: "rouge foncé",
       price: "2000 Gdes",
@@ -99,11 +105,11 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
     },
     {
       id: 7,
-      name: "Ours rouge Élégant",
+      name: "Peluche rouge Élégant",
       size: "20cm",
       color: "rouge",
       price: "1000 Gdes",
-      description: "Ours élégant au pelage doux et soyeux",
+      description: "",
       image: peluche7
     },
     {
@@ -112,75 +118,75 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       size: "20 cm",
       color: "Blanc/Rose",
       price: "1000 Gdes",
-      description: "Charmant ours blanc avec nœud rose délicat",
+      description: "",
       image: peluche8
     },
     {
       id: 9,
-      name: "Peluche rouge Doux",
+      name: "Peluche rouge",
       size: "20cm",
       color: "Rouge",
       price: "1000 Gdes",
-      description: "Peluche aux tons chaleureux et apaisants",
+      description: "",
       image: peluche9
     },
     {
       id: 10,
       name: "peluche Poudré",
       size: "35cm",
-      color: "creme",
+      color: "blanc",
       price: "2000 Gdes",
-      description: "Ours au coloris délicat et raffiné",
+      description: "",
       image: peluche10
     },
     {
       id: 11,
-      name: "Ours Ivoire Chic",
+      name: "Peluche",
       size: "20cm",
-      color: "Ivoire",
+      color: "",
       price: "1000 Gdes",
-      description: "Peluche chic et sophistiquée",
+      description: "",
       image: peluche11
     },
     {
       id: 12,
-      name: "Ours Blanc Géant",
+      name: "peluche blanc",
       size: "20cm",
       color: "Blanc",
       price: "1500 Gdes",
-      description: "Impressionnante peluche pour un cadeau mémorable",
+      description: "",
       image: peluche12
     },
     {
       id: 13,
-      name: "Ours Beige Nœud",
+      name: "Peluche",
       size: "25cm",
       color: "Beige",
       price: "1500 Gdes",
-      description: "Ours adorable avec nœud assorti",
+      description: "",
       image: peluche13
     },
     {
       id: 14,
-      name: "Ours Rose Clair",
+      name: "Peluche",
       size: "60cm",
       color: "Rouge clair",
       price: "4000 Gdes",
-      description: "Douceur et tendresse en peluche",
+      description: " ",
       image: peluche14
     },
     {
       id: 15,
-      name: "Ours Crème Premium",
-      size: "35 cm",
-      color: "Crème",
-      price: "2000 Gdes",
-      description: "Qualité premium pour un cadeau d'exception",
+      name: "Peluche",
+      size: "25 cm",
+      color: "marron",
+      price: "1500 Gdes",
+      description: "",
       image: peluche15
     },
     {
       id: 16,
-      name: "Ours rouge Foncé",
+      name: "Peluche",
       size: "70cm",
       color: "rouge foncé",
       price: "6500 Gdes",
@@ -189,52 +195,52 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
     },
     {
       id: 17,
-      name: "Ours Blanc Câlin",
+      name: "Peluche",
       size: "60cm",
       color: "rose",
       price: "4000 Gdes",
-      description: "Parfait compagnon pour les câlins",
+      description: "",
       image: peluche17
     },
     {
       id: 18,
-      name: "Ours Rose Vif",
+      name: "Peluche",
       size: "90cm",
-      color: "Rose vif",
+      color: "blanc et rouge",
       price: "9000 gdes",
-      description: "Peluche éclatante et joyeuse",
+      description: "",
       image: peluche18
     },
     {
       id: 19,
-      name: "Ours Beige Doux",
+      name: "Peluche",
       size: "70cm",
       color: "Beige",
       price: "6500 Gdes",
-      description: "Texture ultra douce et confortable",
+      description: "",
       image: peluche19
     },
     {
       id: 20,
-      name: "Ours Blanc Neige",
+      name: "Peluche",
       size: "62cm",
       color: "Blanc pur",
       price: "4250 Gdes",
-      description: "Blanc immaculé comme la neige fraîche",
+      description: "",
       image: peluche20
     },
     {
       id: 21,
-      name: "Ours Caramel Clair",
+      name: "Peluche",
       size: "80cm",
-      color: "Caramel clair",
+      color: "Rouge",
       price: "7500 Gdes",
       description: "Nuance chaleureuse et réconfortante",
       image: peluche21
     },
     {
       id: 22,
-      name: "Ours Rose Pastel",
+      name: "Peluche",
       size: "52cm",
       color: "Rose pastel",
       price: "4250 Gdes",
@@ -243,16 +249,16 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
     },
     {
       id: 23,
-      name: "Ours Caramel Soyeux",
+      name: "Peluche",
       size: "90 cm",
       color: "Caramel",
       price: "9000",
-      description: "Pelage soyeux au toucher exceptionnel",
+      description: "Peluche",
       image: peluche23
     },
     {
       id: 24,
-      name: "Ours Marron Clair",
+      name: "Peluche",
       size: "55cm",
       color: "Rouge",
       price: "3750 Gdes",
@@ -261,7 +267,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
     },
     {
       id: 25,
-      name: "Ours Blanc Luxe",
+      name: "Peluche",
       size: "62cm",
       color: "Blanc",
       price: "4250 Gdes",
@@ -269,9 +275,18 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche25
     },
     {
+      id: 26,
+      name: "Peluche 26",
+      size: "20cm",
+      color: "Blanc",
+      price: "1500 Gdes",
+      description: "Peluche élégante blanche",
+      image: peluche26
+    },
+    {
       id: 27,
-      name: "Ours Beige Classique",
-      size: "27cm",
+      name: "Peluche",
+      size: "25cm",
       color: "Beige",
       price: "1500 Gdes",
       description: "Intemporel et toujours apprécié",
@@ -279,21 +294,48 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
     },
     {
       id: 28,
-      name: "Ours Blanc Élégance",
+      name: "Peluche",
       size: "25 cm",
       color: "Blanc",
       price: "1500 Gdes",
-      description: "Élégance et raffinement réunis",
+      description: "",
       image: peluche28
     },
     {
       id: 29,
-      name: "Ours Caramel Foncé",
+      name: "Peluche",
       size: "32cm",
       color: "blanc",
       price: "2000 Gdes",
       description: "Teinte profonde et chaleureuse",
       image: peluche29
+    },
+    {
+      id: 30,
+      name: "Peluche 30",
+      size: "32cm",
+      color: "Marron",
+      price: "2000 Gdes",
+      description: "Peluche classique",
+      image: peluche30
+    },
+    {
+      id: 31,
+      name: "Peluche 31",
+      size: "20cm",
+      color: "Blanc",
+      price: "1500 Gdes",
+      description: "Peluche adorable",
+      image: peluche31
+    },
+    {
+      id: 32,
+      name: "Peluche 32",
+      size: "25cm",
+      color: "Beige",
+      price: "1800 Gdes",
+      description: "Peluche confortable",
+      image: peluche32
     },
     {
       id: 33,
@@ -315,7 +357,7 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
     },
     {
       id: 35,
-      name: "Ours Beige Premium",
+      name: "Peluche",
       size: "25cm",
       color: "Beige",
       price: "1000 Gdes",
@@ -323,9 +365,18 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       image: peluche35
     },
     {
-      id: 37,
-      name: "Ours Caramel Douceur",
+      id: 36,
+      name: "Peluche 36",
       size: "20cm",
+      color: "Rose",
+      price: "1500 Gdes",
+      description: "Peluche mignonne",
+      image: peluche36
+    },
+    {
+      id: 37,
+      name: "Peluche",
+      size: "25cm",
       color: "Caramel",
       price: "1000 Gdes",
       description: "Pure douceur et confort",
@@ -333,12 +384,21 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
     },
     {
       id: 38,
-      name: "Ours Rose Amour",
-      size: "82cm",
-      color: "Rose",
-      price: "8000 Gdes",
+      name: "peluche",
+      size: "50cm",
+      color: "",
+      price: "3500 Gdes",
       description: "Symbole d'amour et d'affection",
       image: peluche38
+    },
+    {
+      id: 39,
+      name: "Peluche 39",
+      size: "60cm",
+      color: "Marron",
+      price: "4000 Gdes",
+      description: "Grande peluche XXL",
+      image: peluche39
     }
   ];
 
@@ -370,46 +430,38 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
       {/* Products Grid */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {peluches.map((peluche) => (
-              <div key={peluche.id} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-[#FADADD] group">
-                {/* Image */}
-                <div className="relative h-80 bg-[#FADADD] overflow-hidden">
+              <div key={peluche.id} className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-[#FADADD] group">
+                {/* Image - Plus grande et bien visible */}
+                <div className="relative aspect-square overflow-hidden bg-pink-50">
                   <ImageWithFallback 
                     src={peluche.image}
                     alt={peluche.name}
-                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
 
                 {/* Content */}
-                <div className="p-6 space-y-4">
-                  <h3 className="text-xl font-semibold text-[#E75480]">{peluche.name}</h3>
-                  <p className="text-[#555555] text-sm leading-relaxed">{peluche.description}</p>
+                <div className="p-4 space-y-3">
+                  <h3 className="text-[#E75480] text-lg font-semibold">{peluche.name}</h3>
                   
                   {/* Details */}
-                  <div className="flex gap-4 text-sm text-[#555555] pt-2 border-t border-[#FADADD]">
-                    <div>
-                      <p className="text-xs text-[#555555]/70">Taille</p>
-                      <p>{peluche.size}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-[#555555]/70">Couleur</p>
-                      <p>{peluche.color}</p>
-                    </div>
+                  <div className="space-y-1">
+                    <p className="text-sm text-[#555555]">Taille: {peluche.size}</p>
+                    <p className="text-sm text-[#555555]">Couleur: {peluche.color}</p>
                   </div>
 
-                  {/* Price & CTA */}
-                  <div className="flex items-center justify-between pt-3">
-                    <p className="text-2xl text-[#E75480]">{peluche.price}</p>
-                    <Button 
-                      onClick={() => onNavigate('reservation')}
-                      className="bg-[#F48FB1] hover:bg-[#E75480] text-white"
-                      size="sm"
-                    >
-                      Réserver
-                    </Button>
-                  </div>
+                  {/* Price */}
+                  <p className="text-xl text-[#E75480] font-bold">{peluche.price}</p>
+
+                  {/* CTA */}
+                  <Button 
+                    onClick={() => onNavigate('reservation')}
+                    className="w-full bg-[#F48FB1] hover:bg-[#E75480] text-white"
+                  >
+                    Réserver
+                  </Button>
                 </div>
               </div>
             ))}

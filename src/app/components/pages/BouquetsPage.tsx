@@ -36,6 +36,7 @@ import bouquet30 from '@/assets/bouquet_30.jpeg';
 import bouquet31 from '@/assets/bouquet_31.jpeg';
 import bouquet32 from '@/assets/bouquet_32.jpeg';
 import bouquet33 from '@/assets/bouquet_33.jpeg';
+import bouquet34 from '@/assets/bouquet_34.jpeg';
 
 interface BouquetsPageProps {
   onNavigate: (page: string) => void;
@@ -339,6 +340,15 @@ export function BouquetsPage({ onNavigate }: BouquetsPageProps) {
       description: "Composition prestigieuse de roses grenat dans un emballage raffiné",
       image: bouquet33,
       features: ["Roses grenat", "Couleur profonde", "Présentation luxe"]
+    },
+    {
+      id: 34,
+      name: "Bouquet Spécial",
+      category: "Artificielles",
+      price: "*** Gdes",
+      description: "Bouquet unique avec composition spéciale",
+      image: bouquet34,
+      features: ["Design unique", "Arrangement spécial", "Sur demande"]
     }
   ];
 
@@ -388,47 +398,42 @@ export function BouquetsPage({ onNavigate }: BouquetsPageProps) {
       {/* Products Grid */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {bouquets.map((bouquet) => (
-              <div key={bouquet.id} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-[#FADADD] group">
-                {/* Image */}
-                <div className="relative h-80 bg-[#FADADD] overflow-hidden">
+              <div key={bouquet.id} className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-[#FADADD] group">
+                {/* Image - Plus grande et bien visible */}
+                <div className="relative aspect-square overflow-hidden bg-pink-50">
                   <ImageWithFallback 
                     src={bouquet.image}
                     alt={bouquet.name}
-                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-[#E75480] px-3 py-1 rounded-full text-xs">
+                  <div className="absolute top-2 right-2 bg-[#E75480] text-white px-3 py-1 rounded-full text-xs">
                     {bouquet.category}
                   </div>
                 </div>
 
                 {/* Content */}
-                <div className="p-6 space-y-4">
-                  <h3 className="text-xl font-semibold text-[#E75480]">{bouquet.name}</h3>
-                  <p className="text-[#555555] text-sm leading-relaxed">{bouquet.description}</p>
+                <div className="p-4 space-y-3">
+                  <h3 className="text-[#E75480] text-lg font-semibold">{bouquet.name}</h3>
                   
                   {/* Features */}
-                  <ul className="space-y-1 text-xs text-[#555555]">
+                  <div className="space-y-1">
                     {bouquet.features.map((feature, index) => (
-                      <li key={index} className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 bg-[#F48FB1] rounded-full"></span>
-                        {feature}
-                      </li>
+                      <p key={index} className="text-sm text-[#555555]">{feature}</p>
                     ))}
-                  </ul>
-
-                  {/* Price & CTA */}
-                  <div className="flex items-center justify-between pt-3 border-t border-[#FADADD]">
-                    <p className="text-xl text-[#E75480]">{bouquet.price}</p>
-                    <Button 
-                      onClick={() => onNavigate('reservation')}
-                      className="bg-[#F48FB1] hover:bg-[#E75480] text-white"
-                      size="sm"
-                    >
-                      Réserver
-                    </Button>
                   </div>
+
+                  {/* Price */}
+                  <p className="text-xl text-[#E75480] font-bold">{bouquet.price}</p>
+
+                  {/* CTA */}
+                  <Button 
+                    onClick={() => onNavigate('reservation')}
+                    className="w-full bg-[#F48FB1] hover:bg-[#E75480] text-white"
+                  >
+                    Réserver
+                  </Button>
                 </div>
               </div>
             ))}
