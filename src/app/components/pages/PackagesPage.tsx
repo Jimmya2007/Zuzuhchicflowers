@@ -72,9 +72,7 @@ import nouvo41 from '@/assets/nouvo41.jpg';
 import nouvo40 from '@/assets/nouvo40.jpg';
 import nouvo42 from '@/assets/nouvo42.jpg';
 import nouvo43 from '@/assets/nouvo43.jpg';
-import nouvo45 from '@/assets/nouvo45.jpg';
-import nouvo47 from '@/assets/nouvo47.jpg';
-
+import nouvo45 from '@/assets/nouvo45.jpg';import nouvo45 from '@/assets/nouvo45.jpg';
 interface PackagesPageProps {
   onNavigate: (page: string) => void;
 }
@@ -730,44 +728,53 @@ export function PackagesPage({ onNavigate }: PackagesPageProps) {
       {/* Packages Grid */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 max-w-6xl mx-auto">
             {packages.map((pkg) => (
-              <div key={pkg.id} className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-[#FADADD] group">
-                {/* Image - Plus grande et bien visible */}
-                <div className="relative aspect-square overflow-hidden bg-pink-50">
+              <div key={pkg.id} className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-[#FADADD] group w-full">
+                {/* Image */}
+                <div className="relative h-64 md:h-96 overflow-hidden">
                   <ImageWithFallback 
                     src={pkg.image}
                     alt={pkg.name}
-                    className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   {pkg.tag && (
-                    <div className="absolute top-2 right-2 bg-[#E75480] text-white px-3 py-1 rounded-full text-xs">
+                    <div className="absolute top-4 right-4 bg-[#E75480] text-white px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm">
                       {pkg.tag}
                     </div>
                   )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                  <h3 className="absolute bottom-4 left-4 right-4 text-white text-lg md:text-2xl break-words">{pkg.name}</h3>
                 </div>
 
                 {/* Content */}
-                <div className="p-4 space-y-3">
-                  <h3 className="text-[#E75480] text-lg font-semibold">{pkg.name}</h3>
+                <div className="p-4 md:p-6 space-y-3 md:space-y-4">
+                  <p className="text-[#555555] leading-relaxed text-sm md:text-base">{pkg.description}</p>
                   
-                  {/* Taille et Couleur */}
-                  <div className="space-y-1">
+                  {/* Features */}
+                  <ul className="space-y-2">
                     {pkg.features.map((feature, index) => (
-                      <p key={index} className="text-sm text-[#555555]">{feature}</p>
+                      <li key={index} className="flex items-start gap-2 text-[#555555] text-sm md:text-base">
+                        <Sparkles className="w-4 h-4 md:w-5 md:h-5 text-[#F48FB1] flex-shrink-0 mt-0.5" />
+                        <span className="break-words">{feature}</span>
+                      </li>
                     ))}
+                  </ul>
+
+                  {/* Price & CTA */}
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-4 border-t border-[#FADADD]">
+                    <div>
+                      <p className="text-sm text-[#555555]">Prix</p>
+                      <p className="text-xl md:text-2xl text-[#E75480] break-words">{pkg.price}</p>
+                    </div>
+                    <Button 
+                      onClick={() => onNavigate('reservation')}
+                      className="bg-[#F48FB1] hover:bg-[#E75480] text-white text-sm md:text-base w-full sm:w-auto"
+                    >
+                      <Gift className="w-4 h-4 mr-2" />
+                      Réserver
+                    </Button>
                   </div>
-
-                  {/* Price */}
-                  <p className="text-xl text-[#E75480] font-bold">{pkg.price}</p>
-
-                  {/* CTA */}
-                  <Button 
-                    onClick={() => onNavigate('reservation')}
-                    className="w-full bg-[#F48FB1] hover:bg-[#E75480] text-white"
-                  >
-                    Réserver
-                  </Button>
                 </div>
               </div>
             ))}

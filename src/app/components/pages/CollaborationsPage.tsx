@@ -275,23 +275,23 @@ export function CollaborationsPage({ onNavigate }: CollaborationsPageProps) {
           </div>
 
           {/* Partners Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 max-w-6xl mx-auto">
             {partners.map((partner) => (
-              <div key={partner.id} className="bg-[#FADADD] rounded-2xl p-8 hover:shadow-xl transition-shadow">
-                <div className="w-14 h-14 bg-[#F48FB1] rounded-full flex items-center justify-center mb-4">
-                  <partner.icon className="w-7 h-7 text-white" />
+              <div key={partner.id} className="bg-[#FADADD] rounded-2xl p-6 md:p-8 hover:shadow-xl transition-shadow w-full">
+                <div className="w-12 h-12 md:w-14 md:h-14 bg-[#F48FB1] rounded-full flex items-center justify-center mb-4">
+                  <partner.icon className="w-6 h-6 md:w-7 md:h-7 text-white" />
                 </div>
-                <h3 className="text-2xl text-[#E75480] mb-3">{partner.type}</h3>
-                <p className="text-[#555555] mb-4 leading-relaxed">
+                <h3 className="text-xl md:text-2xl text-[#E75480] mb-3 break-words">{partner.type}</h3>
+                <p className="text-[#555555] mb-4 leading-relaxed text-sm md:text-base break-words">
                   {partner.description}
                 </p>
                 <div className="space-y-2">
                   <p className="text-sm text-[#555555] font-medium">Exemples de collaboration :</p>
                   <ul className="space-y-1">
                     {partner.examples.map((example, idx) => (
-                      <li key={idx} className="text-[#555555] text-sm flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 bg-[#F48FB1] rounded-full"></span>
-                        {example}
+                      <li key={idx} className="text-[#555555] text-sm flex items-center gap-2 break-words">
+                        <span className="w-1.5 h-1.5 bg-[#F48FB1] rounded-full flex-shrink-0"></span>
+                        <span>{example}</span>
                       </li>
                     ))}
                   </ul>
@@ -312,14 +312,14 @@ export function CollaborationsPage({ onNavigate }: CollaborationsPageProps) {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto">
             {benefits.map((benefit, index) => (
-              <div key={index} className="bg-white rounded-xl p-6 text-center shadow-md hover:shadow-lg transition-shadow">
-                <div className="w-12 h-12 bg-[#F48FB1] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-white text-xl">{index + 1}</span>
+              <div key={index} className="bg-white rounded-xl p-4 md:p-6 text-center shadow-md hover:shadow-lg transition-shadow w-full">
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-[#F48FB1] rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-white text-lg md:text-xl">{index + 1}</span>
                 </div>
-                <h3 className="text-lg text-[#E75480] mb-2">{benefit.title}</h3>
-                <p className="text-[#555555] text-sm">{benefit.description}</p>
+                <h3 className="text-base md:text-lg text-[#E75480] mb-2 break-words">{benefit.title}</h3>
+                <p className="text-[#555555] text-xs md:text-sm break-words">{benefit.description}</p>
               </div>
             ))}
           </div>
@@ -339,9 +339,9 @@ export function CollaborationsPage({ onNavigate }: CollaborationsPageProps) {
           </div>
 
           {/* Gallery Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4 max-w-7xl mx-auto">
             {atelierImages.map((image, index) => (
-              <div key={index} className="relative aspect-square overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow group">
+              <div key={index} className="relative aspect-square overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow group w-full">
                 <ImageWithFallback 
                   src={image}
                   alt={`Atelier TIMOUN - Photo ${index + 1}`}
@@ -378,9 +378,9 @@ export function CollaborationsPage({ onNavigate }: CollaborationsPageProps) {
           </div>
 
           {/* Graduation Gallery Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4 max-w-7xl mx-auto">
             {graduationImages.map((image, index) => (
-              <div key={index} className="relative aspect-square overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow group">
+              <div key={index} className="relative aspect-square overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow group w-full">
                 <ImageWithFallback 
                   src={image}
                   alt={`Graduation - Photo ${index + 1}`}
@@ -418,9 +418,9 @@ export function CollaborationsPage({ onNavigate }: CollaborationsPageProps) {
           </div>
 
           {/* Journee Recreative Gallery Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4 max-w-7xl mx-auto">
             {journeeRecreativeImages.map((image, index) => (
-              <div key={index} className="relative aspect-square overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow group">
+              <div key={index} className="relative aspect-square overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow group w-full">
                 <ImageWithFallback 
                   src={image}
                   alt={`Journée Récréative - Photo ${index + 1}`}
@@ -442,37 +442,37 @@ export function CollaborationsPage({ onNavigate }: CollaborationsPageProps) {
       {/* Visual Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
-            <div className="relative">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center max-w-6xl mx-auto">
+            <div className="relative w-full">
               <ImageWithFallback 
                 src={partnershipImage}
                 alt="Partnership"
-                className="rounded-2xl shadow-2xl w-full h-96 object-cover"
+                className="rounded-2xl shadow-2xl w-full h-64 md:h-96 object-cover"
               />
             </div>
-            <div className="space-y-6">
-              <h2 className="text-3xl text-[#E75480]">Créons Quelque Chose d'Exceptionnel</h2>
-              <p className="text-[#555555] text-lg leading-relaxed">
+            <div className="space-y-4 md:space-y-6">
+              <h2 className="text-2xl md:text-3xl text-[#E75480] break-words">Créons Quelque Chose d'Exceptionnel</h2>
+              <p className="text-[#555555] text-base md:text-lg leading-relaxed break-words">
                 Que vous soyez une boutique élégante, un hôtel de luxe, un restaurant gastronomique 
                 ou une entreprise cherchant à embellir ses espaces, ZUZUH CHIC FLOWERS est le 
                 partenaire idéal pour apporter une touche florale sophistiquée.
               </p>
-              <p className="text-[#555555] text-lg leading-relaxed">
+              <p className="text-[#555555] text-base md:text-lg leading-relaxed break-words">
                 Nous proposons des contrats flexibles, des créations personnalisées et un service 
                 dédié pour répondre à vos besoins spécifiques.
               </p>
               <ul className="space-y-3">
-                <li className="flex items-start gap-3 text-[#555555]">
-                  <ArrowRight className="w-5 h-5 text-[#F48FB1] flex-shrink-0 mt-1" />
-                  <span>Consultations personnalisées pour définir vos besoins</span>
+                <li className="flex items-start gap-3 text-[#555555] text-sm md:text-base">
+                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5 text-[#F48FB1] flex-shrink-0 mt-1" />
+                  <span className="break-words">Consultations personnalisées pour définir vos besoins</span>
                 </li>
-                <li className="flex items-start gap-3 text-[#555555]">
-                  <ArrowRight className="w-5 h-5 text-[#F48FB1] flex-shrink-0 mt-1" />
-                  <span>Créations sur mesure adaptées à votre identité de marque</span>
+                <li className="flex items-start gap-3 text-[#555555] text-sm md:text-base">
+                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5 text-[#F48FB1] flex-shrink-0 mt-1" />
+                  <span className="break-words">Créations sur mesure adaptées à votre identité de marque</span>
                 </li>
-                <li className="flex items-start gap-3 text-[#555555]">
-                  <ArrowRight className="w-5 h-5 text-[#F48FB1] flex-shrink-0 mt-1" />
-                  <span>Service régulier ou ponctuel selon vos exigences</span>
+                <li className="flex items-start gap-3 text-[#555555] text-sm md:text-base">
+                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5 text-[#F48FB1] flex-shrink-0 mt-1" />
+                  <span className="break-words">Service régulier ou ponctuel selon vos exigences</span>
                 </li>
               </ul>
             </div>
