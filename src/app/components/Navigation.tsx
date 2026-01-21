@@ -19,6 +19,7 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
     { name: 'Équipe', page: 'equipe' },
     { name: 'About', page: 'about' },
     { name: 'Collaborations', page: 'collaborations' },
+    { name: 'Admin', page: 'admin-login' },
   ];
 
   return (
