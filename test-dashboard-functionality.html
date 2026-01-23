@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Functionality Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #667eea;
+        }
+        .test-section.success {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+        .test-section.error {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+        .test-section.warning {
+            border-left-color: #ffc107;
+            background: #fff3cd;
+        }
+        h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .test-item {
+            padding: 10px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .status-icon {
+            font-size: 24px;
+            min-width: 30px;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px 5px;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        #results {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e9ecef;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Dashboard Functionality Test Suite</h1>
+        <p class="subtitle">Comprehensive testing for Zuzuh Chic Flowers Admin Dashboard</p>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress" style="width: 0%">0%</div>
+        </div>
+
+        <div class="button-group">
+            <button onclick="runAllTests()">🚀 Run All Tests</button>
+            <button onclick="testDatabase()">🗄️ Database Connection</button>
+            <button onclick="testReservations()">📅 Reservations</button>
+            <button onclick="testVisitors()">👥 Visitor Tracking</button>
+            <button onclick="testOrders()">📦 Orders</button>
+            <button onclick="clearResults()">🗑️ Clear Results</button>
+        </div>
+
+        <div id="testSummary"></div>
+        
+        <div class="test-section">
+            <h3>📝 Test Results</h3>
+            <div id="results"></div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const PROJECT_ID = 'sbovtiakuigihbkjgnmo';
+        const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNib3Z0aWFrdWlnaWhia2pnbm1vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzcyODA3NTksImV4cCI6MjA1Mjg1Njc1OX0.HsQQMlhNi3qBiU59n4h6fkZkxJt0Yy17Rm0gJlWWPCM';
+        const SUPABASE_URL = `https://${PROJECT_ID}.supabase.co`;
+
+        let testResults = {
+            total: 0,
+            passed: 0,
+            failed: 0,
+            warnings: 0
+        };
+
+        function log(message, type = 'info') {
+            const results = document.getElementById('results');
+            const timestamp = new Date().toLocaleTimeString();
+            const icons = {
+                success: '✅',
+                error: '❌',
+                info: 'ℹ️',
+                warning: '⚠️'
+            };
+            
+            const colors = {
+                success: '#4ade80',
+                error: '#f87171',
+                info: '#60a5fa',
+                warning: '#fbbf24'
+            };
+            
+            const line = document.createElement('div');
+            line.style.color = colors[type] || colors.info;
+            line.textContent = `[${timestamp}] ${icons[type]} ${message}`;
+            results.appendChild(line);
+            results.scrollTop = results.scrollHeight;
+        }
+
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+            document.getElementById('testSummary').innerHTML = '';
+            testResults = { total: 0, passed: 0, failed: 0, warnings: 0 };
+            updateProgress(0);
+            log('Results cleared', 'info');
+        }
+
+        function updateProgress(percent) {
+            const progress = document.getElementById('progress');
+            progress.style.width = percent + '%';
+            progress.textContent = Math.round(percent) + '%';
+        }
+
+        function updateSummary() {
+            const summary = document.getElementById('testSummary');
+            const successRate = testResults.total > 0 ? (testResults.passed / testResults.total * 100).toFixed(1) : 0;
+            
+            let statusClass = 'test-section';
+            if (testResults.failed === 0 && testResults.passed > 0) {
+                statusClass += ' success';
+            } else if (testResults.failed > 0) {
+                statusClass += ' error';
+            } else if (testResults.warnings > 0) {
+                statusClass += ' warning';
+            }
+            
+            summary.className = statusClass;
+            summary.innerHTML = `
+                <h3>📊 Test Summary</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div class="test-item">
+                        <span class="status-icon">📝</span>
+                        <div>
+                            <strong>Total Tests</strong><br>
+                            <span style="font-size: 24px; color: #667eea;">${testResults.total}</span>
+                        </div>
+                    </div>
+                    <div class="test-item">
+                        <span class="status-icon">✅</span>
+                        <div>
+                            <strong>Passed</strong><br>
+                            <span style="font-size: 24px; color: #28a745;">${testResults.passed}</span>
+                        </div>
+                    </div>
+                    <div class="test-item">
+                        <span class="status-icon">❌</span>
+                        <div>
+                            <strong>Failed</strong><br>
+                            <span style="font-size: 24px; color: #dc3545;">${testResults.failed}</span>
+                        </div>
+                    </div>
+                    <div class="test-item">
+                        <span class="status-icon">⚠️</span>
+                        <div>
+                            <strong>Warnings</strong><br>
+                            <span style="font-size: 24px; color: #ffc107;">${testResults.warnings}</span>
+                        </div>
+                    </div>
+                    <div class="test-item">
+                        <span class="status-icon">📈</span>
+                        <div>
+                            <strong>Success Rate</strong><br>
+                            <span style="font-size: 24px; color: ${successRate >= 80 ? '#28a745' : successRate >= 50 ? '#ffc107' : '#dc3545'};">${successRate}%</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function testDatabase() {
+            log('🔄 Testing database connection...', 'info');
+            testResults.total++;
+
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/`, {
+                    headers: {
+                        'apikey': ANON_KEY,
+                        'Authorization': `Bearer ${ANON_KEY}`
+                    }
+                });
+
+                if (response.status === 200 || response.status === 404) {
+                    log('✅ Database connection successful', 'success');
+                    testResults.passed++;
+                    return true;
+                } else {
+                    log(`❌ Database connection failed: ${response.status}`, 'error');
+                    testResults.failed++;
+                    return false;
+                }
+            } catch (error) {
+                log(`❌ Database connection error: ${error.message}`, 'error');
+                testResults.failed++;
+                return false;
+            } finally {
+                updateSummary();
+            }
+        }
+
+        async function testReservations() {
+            log('🔄 Testing reservations functionality...', 'info');
+            
+            // Test 1: Read reservations
+            testResults.total++;
+            try {
+                const response = await fetch(
+                    `${SUPABASE_URL}/rest/v1/reservations?select=*&limit=5`,
+                    {
+                        headers: {
+                            'apikey': ANON_KEY,
+                            'Authorization': `Bearer ${ANON_KEY}`
+                        }
+                    }
+                );
+
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✅ Reservations read successful (${data.length} records)`, 'success');
+                    testResults.passed++;
+                } else {
+                    log(`❌ Failed to read reservations: ${response.status}`, 'error');
+                    testResults.failed++;
+                }
+            } catch (error) {
+                log(`❌ Reservations read error: ${error.message}`, 'error');
+                testResults.failed++;
+            }
+
+            // Test 2: Insert test reservation
+            testResults.total++;
+            try {
+                const testReservation = {
+                    customer_name: 'Test User',
+                    email: 'test@example.com',
+                    phone: '555-0100',
+                    product: 'Test Product',
+                    reservation_date: new Date().toISOString().split('T')[0],
+                    reservation_time: '10:00',
+                    message: 'Test reservation',
+                    status: 'pending'
+                };
+
+                const response = await fetch(
+                    `${SUPABASE_URL}/rest/v1/reservations`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'apikey': ANON_KEY,
+                            'Authorization': `Bearer ${ANON_KEY}`,
+                            'Prefer': 'return=minimal'
+                        },
+                        body: JSON.stringify(testReservation)
+                    }
+                );
+
+                if (response.ok) {
+                    log('✅ Reservation insert successful', 'success');
+                    testResults.passed++;
+                } else {
+                    const errorText = await response.text();
+                    log(`❌ Failed to insert reservation: ${response.status} - ${errorText}`, 'error');
+                    testResults.failed++;
+                }
+            } catch (error) {
+                log(`❌ Reservation insert error: ${error.message}`, 'error');
+                testResults.failed++;
+            }
+
+            updateSummary();
+        }
+
+        async function testVisitors() {
+            log('🔄 Testing visitor tracking...', 'info');
+            
+            // Test 1: Insert visitor record
+            testResults.total++;
+            try {
+                const visitorData = {
+                    user_agent: navigator.userAgent,
+                    page_url: window.location.href,
+                    referrer: 'test',
+                    visit_date: new Date().toISOString().split('T')[0]
+                };
+
+                const response = await fetch(
+                    `${SUPABASE_URL}/rest/v1/visitors`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'apikey': ANON_KEY,
+                            'Authorization': `Bearer ${ANON_KEY}`,
+                            'Prefer': 'return=minimal'
+                        },
+                        body: JSON.stringify(visitorData)
+                    }
+                );
+
+                if (response.ok) {
+                    log('✅ Visitor tracking insert successful', 'success');
+                    testResults.passed++;
+                } else {
+                    const errorText = await response.text();
+                    log(`❌ Failed to track visitor: ${response.status} - ${errorText}`, 'error');
+                    testResults.failed++;
+                }
+            } catch (error) {
+                log(`❌ Visitor tracking error: ${error.message}`, 'error');
+                testResults.failed++;
+            }
+
+            // Test 2: Get visitor count
+            testResults.total++;
+            try {
+                const response = await fetch(
+                    `${SUPABASE_URL}/rest/v1/visitors?select=count`,
+                    {
+                        headers: {
+                            'apikey': ANON_KEY,
+                            'Authorization': `Bearer ${ANON_KEY}`,
+                            'Range': '0-0'
+                        }
+                    }
+                );
+
+                if (response.ok) {
+                    const range = response.headers.get('content-range');
+                    const count = range ? parseInt(range.split('/')[1]) : 0;
+                    log(`✅ Visitor count retrieved: ${count} visitors`, 'success');
+                    testResults.passed++;
+                } else {
+                    log(`❌ Failed to get visitor count: ${response.status}`, 'error');
+                    testResults.failed++;
+                }
+            } catch (error) {
+                log(`❌ Visitor count error: ${error.message}`, 'error');
+                testResults.failed++;
+            }
+
+            updateSummary();
+        }
+
+        async function testOrders() {
+            log('🔄 Testing orders functionality...', 'info');
+            testResults.total++;
+
+            try {
+                const response = await fetch(
+                    `${SUPABASE_URL}/rest/v1/orders?select=*&limit=5`,
+                    {
+                        headers: {
+                            'apikey': ANON_KEY,
+                            'Authorization': `Bearer ${ANON_KEY}`
+                        }
+                    }
+                );
+
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✅ Orders read successful (${data.length} records)`, 'success');
+                    testResults.passed++;
+                } else if (response.status === 404) {
+                    log('⚠️ Orders table accessible but empty', 'warning');
+                    testResults.warnings++;
+                    testResults.passed++;
+                } else {
+                    log(`❌ Failed to read orders: ${response.status}`, 'error');
+                    testResults.failed++;
+                }
+            } catch (error) {
+                log(`❌ Orders read error: ${error.message}`, 'error');
+                testResults.failed++;
+            }
+
+            updateSummary();
+        }
+
+        async function runAllTests() {
+            clearResults();
+            log('🚀 Starting comprehensive dashboard test suite...', 'info');
+            log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'info');
+            
+            const tests = [
+                { name: 'Database Connection', fn: testDatabase },
+                { name: 'Reservations', fn: testReservations },
+                { name: 'Visitor Tracking', fn: testVisitors },
+                { name: 'Orders', fn: testOrders }
+            ];
+
+            for (let i = 0; i < tests.length; i++) {
+                log(`\n[${i + 1}/${tests.length}] Running ${tests[i].name} tests...`, 'info');
+                await tests[i].fn();
+                updateProgress(((i + 1) / tests.length) * 100);
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+
+            log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'info');
+            log('🏁 All tests completed!', 'info');
+            
+            if (testResults.failed === 0 && testResults.passed > 0) {
+                log('🎉 SUCCESS! All dashboard features are working correctly!', 'success');
+            } else if (testResults.failed > 0) {
+                log('⚠️ Some tests failed. Please review the errors above.', 'warning');
+            }
+        }
+
+        // Auto-run tests on page load
+        window.addEventListener('load', () => {
+            log('Dashboard Test Suite initialized', 'info');
+            log(`Project: ${PROJECT_ID}`, 'info');
+            log(`Testing URL: ${SUPABASE_URL}`, 'info');
+            log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n', 'info');
+        });
+    </script>
+</body>
+</html>

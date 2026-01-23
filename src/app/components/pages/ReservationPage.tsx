@@ -4,6 +4,7 @@ import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
 import { Textarea } from '@/app/components/ui/textarea';
 import { Label } from '@/app/components/ui/label';
+import { projectId, publicAnonKey } from '@/utils/supabase/info';
 
 interface ReservationPageProps {
   onNavigate: (page: string) => void;
@@ -38,25 +39,65 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real application, this would send data to a backend/Supabase
-    console.log('Form submitted:', { formData, imageFile });
-    setIsSubmitted(true);
     
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({
-        fullName: '',
-        address: '',
-        phone: '',
-        email: '',
-        message: ''
-      });
-      setImageFile(null);
-      setImagePreview(null);
-    }, 3000);
+    try {
+      console.log('📤 Submitting reservation directly to Supabase...');
+      
+      // Save reservation directly to Supabase REST API
+      const response = await fetch(
+        `https://${projectId}.supabase.co/rest/v1/reservations`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': publicAnonKey,
+            'Authorization': `Bearer ${publicAnonKey}`,
+            'Prefer': 'return=representation'
+          },
+          body: JSON.stringify({
+            customer_name: formData.fullName,
+            email: formData.email,
+            phone: formData.phone,
+            product: 'Réservation depuis formulaire',
+            message: `${formData.message}\n\nAdresse: ${formData.address}`,
+            reservation_date: new Date().toISOString().split('T')[0],
+            reservation_time: new Date().toTimeString().split(' ')[0],
+            status: 'pending'
+          })
+        }
+      );
+
+      console.log('📊 Response status:', response.status);
+      
+      if (response.ok || response.status === 201) {
+        const data = await response.json();
+        console.log('✅ Reservation saved successfully!', data);
+        setIsSubmitted(true);
+        
+        // Reset form after 3 seconds
+        setTimeout(() => {
+          setIsSubmitted(false);
+          setFormData({
+            fullName: '',
+            address: '',
+            phone: '',
+            email: '',
+            message: ''
+          });
+          setImageFile(null);
+          setImagePreview(null);
+        }, 3000);
+      } else {
+        const errorText = await response.text();
+        console.error('❌ Failed to save reservation. Status:', response.status, 'Error:', errorText);
+        alert(`Erreur ${response.status}: ${errorText}\n\nVeuillez vérifier que tous les champs sont remplis.`);
+      }
+    } catch (error) {
+      console.error('❌ Error submitting reservation:', error);
+      alert(`Erreur réseau: ${error}\n\nVérifiez votre connexion Internet.`);
+    }
   };
 
   if (isSubmitted) {

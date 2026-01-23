@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { LogIn, Lock, Mail, User } from 'lucide-react';
+import { LogIn, Lock, Mail } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
 import { Label } from '@/app/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/app/components/ui/card';
 import { createClient } from '@supabase/supabase-js';
-import { projectId, publicAnonKey } from '/utils/supabase/info';
+import { projectId, publicAnonKey } from '@/utils/supabase/info';
 
 const supabase = createClient(
   `https://${projectId}.supabase.co`,
@@ -18,56 +18,10 @@ interface AdminLoginPageProps {
 }
 
 export function AdminLoginPage({ onNavigate, onLoginSuccess }: AdminLoginPageProps) {
-  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-
-  const handleSignUp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-
-    try {
-      const response = await fetch(`https://${projectId}.supabase.co/functions/v1/make-server-554e7d35/signup`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${publicAnonKey}`,
-        },
-        body: JSON.stringify({ email, password, name }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.error || 'Erreur lors de l\'inscription');
-        return;
-      }
-
-      // After signup, automatically sign in
-      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (signInError) {
-        setError(signInError.message);
-        return;
-      }
-
-      if (signInData.session?.access_token) {
-        onLoginSuccess(signInData.session.access_token, name || email);
-      }
-    } catch (err) {
-      console.error('Erreur lors de l\'inscription:', err);
-      setError('Erreur de connexion au serveur');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -109,33 +63,14 @@ export function AdminLoginPage({ onNavigate, onLoginSuccess }: AdminLoginPagePro
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-2xl">
               <Lock className="w-6 h-6 text-[#E75480]" />
-              {isLogin ? 'Connexion' : 'Inscription'}
+              Connexion
             </CardTitle>
             <CardDescription>
-              {isLogin 
-                ? 'Connectez-vous pour gérer vos produits' 
-                : 'Créez un compte administrateur'}
+              Connectez-vous pour gérer vos produits
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={isLogin ? handleSignIn : handleSignUp} className="space-y-4">
-              {!isLogin && (
-                <div className="space-y-2">
-                  <Label htmlFor="name" className="flex items-center gap-2">
-                    <User className="w-4 h-4" />
-                    Nom
-                  </Label>
-                  <Input
-                    id="name"
-                    type="text"
-                    placeholder="Votre nom"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required={!isLogin}
-                  />
-                </div>
-              )}
-
+            <form onSubmit={handleSignIn} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email" className="flex items-center gap-2">
                   <Mail className="w-4 h-4" />
@@ -179,25 +114,10 @@ export function AdminLoginPage({ onNavigate, onLoginSuccess }: AdminLoginPagePro
                 disabled={loading}
               >
                 <LogIn className="w-4 h-4 mr-2" />
-                {loading ? 'Chargement...' : (isLogin ? 'Se connecter' : "S'inscrire")}
+                {loading ? 'Chargement...' : 'Se connecter'}
               </Button>
 
               <div className="text-center pt-4 border-t">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsLogin(!isLogin);
-                    setError('');
-                  }}
-                  className="text-sm text-[#E75480] hover:underline"
-                >
-                  {isLogin 
-                    ? "Pas encore de compte ? S'inscrire" 
-                    : 'Déjà un compte ? Se connecter'}
-                </button>
-              </div>
-
-              <div className="text-center pt-2">
                 <button
                   type="button"
                   onClick={() => onNavigate('home')}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Header } from '@/app/components/Header';
 import { FooterSection } from '@/app/components/FooterSection';
 import { HomePage } from '@/app/components/pages/HomePage';
@@ -13,13 +13,25 @@ import { ReservationPage } from '@/app/components/pages/ReservationPage';
 import { AdminLoginPage } from '@/app/components/pages/AdminLoginPage';
 import { AdminPage } from '@/app/components/pages/AdminPage';
 import { DashboardPage } from '@/app/components/pages/DashboardPage';
+import ValentineDashboard from '@/app/components/pages/ValentineDashboard';
 import { Toaster } from '@/app/components/ui/sonner';
+import { initVisitorTracking } from '@/utils/visitorTracker';
+import { CartProvider } from '@/utils/CartContext';
+import { PaymentProvider } from '@/utils/PaymentContext';
+import { ShoppingCart } from '@/app/components/ShoppingCart';
+import { PaymentUnavailableBanner } from '@/app/components/PaymentUnavailableBanner';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [accessToken, setAccessToken] = useState('');
   const [userName, setUserName] = useState('');
+
+  // Initialize visitor tracking when app loads
+  useEffect(() => {
+    console.log('🚀 Initializing visitor tracking...');
+    initVisitorTracking();
+  }, []);
 
   const handleNavigate = (page: string) => {
     setCurrentPage(page);
@@ -38,7 +50,7 @@ export default function App() {
     setAccessToken('');
     setUserName('');
     setIsAuthenticated(false);
-    setCurrentPage('admin-login');
+    setCurrentPage('home');
   };
 
   const renderPage = () => {
@@ -52,11 +64,10 @@ export default function App() {
         return <AdminLoginPage onNavigate={handleNavigate} onLoginSuccess={handleLoginSuccess} />;
       }
       return (
-        <AdminPage 
-          onNavigate={handleNavigate} 
+        <ValentineDashboard 
+          onNavigate={handleNavigate}
+          userName={userName || 'Admin'}          onLogout={handleLogout}
           accessToken={accessToken}
-          userName={userName}
-          onLogout={handleLogout}
         />
       );
     }
@@ -70,6 +81,26 @@ export default function App() {
           onNavigate={handleNavigate} 
           accessToken={accessToken}
           userName={userName}
+        />
+      );
+    }
+
+    if (currentPage === 'old-admin') {
+      return (
+        <AdminPage 
+          onNavigate={handleNavigate} 
+          accessToken={accessToken || 'test-token'}
+          userName={userName || 'Admin'}
+          onLogout={handleLogout}
+        />
+      );
+    }
+
+    if (currentPage === 'valentine-dashboard') {
+      return (
+        <ValentineDashboard 
+          onNavigate={handleNavigate}
+          userName={userName || 'Admin'}
         />
       );
     }
@@ -100,16 +131,22 @@ export default function App() {
   };
 
   // Don't show header/footer for admin pages
-  const isAdminPage = currentPage === 'admin' || currentPage === 'admin-login';
+  const isAdminPage = currentPage === 'admin' || currentPage === 'admin-login' || currentPage === 'valentine-dashboard' || currentPage === 'old-admin';
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {!isAdminPage && <Header currentPage={currentPage} onNavigate={handleNavigate} />}
-      <main className={isAdminPage ? '' : 'flex-1'}>
-        {renderPage()}
-      </main>
-      {!isAdminPage && <FooterSection />}
-      <Toaster />
-    </div>
+    <PaymentProvider>
+      <CartProvider>
+        <div className="min-h-screen flex flex-col">
+          {!isAdminPage && <PaymentUnavailableBanner />}
+          {!isAdminPage && <Header currentPage={currentPage} onNavigate={handleNavigate} />}
+          <main className={isAdminPage ? '' : 'flex-1'}>
+            {renderPage()}
+          </main>
+          {!isAdminPage && <FooterSection />}
+          <ShoppingCart />
+          <Toaster position="top-right" />
+        </div>
+      </CartProvider>
+    </PaymentProvider>
   );
 }

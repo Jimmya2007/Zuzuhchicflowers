@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Stats Endpoint</title>
+</head>
+<body>
+    <h1>Testing Stats Endpoint</h1>
+    <button onclick="testStats()">Test Stats</button>
+    <pre id="result"></pre>
+
+    <script>
+        // Your login credentials
+        const email = 'jeremiechristopher11@gmail.com';
+        const password = 'ZuzuhAdmin2026!';
+        const projectId = 'sbovtiakuigihbkjgnmo';
+        const anonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNib3Z0aWFrdWlnaWhia2pnbm1vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg2ODAxNzcsImV4cCI6MjA4NDI1NjE3N30.pnLd-LTzd0gQUwH4QHOh7XAi-OTQ3RjLKG3vD66BEI0';
+
+        async function testStats() {
+            const resultEl = document.getElementById('result');
+            resultEl.textContent = 'Logging in...';
+
+            try {
+                // Login first
+                const loginResponse = await fetch(`https://${projectId}.supabase.co/auth/v1/token?grant_type=password`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': anonKey
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const loginData = await loginResponse.json();
+                
+                if (!loginResponse.ok) {
+                    resultEl.textContent = 'Login Error: ' + JSON.stringify(loginData, null, 2);
+                    return;
+                }
+
+                const accessToken = loginData.access_token;
+                resultEl.textContent = 'Logged in! Fetching stats...';
+
+                // Now get stats
+                const statsResponse = await fetch(`https://${projectId}.supabase.co/functions/v1/make-server-554e7d35/stats`, {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                });
+
+                const statsData = await statsResponse.json();
+                
+                resultEl.textContent = JSON.stringify({
+                    status: statsResponse.status,
+                    data: statsData
+                }, null, 2);
+
+            } catch (error) {
+                resultEl.textContent = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

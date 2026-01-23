@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Lock } from 'lucide-react';
 import logoImage from '@/assets/zuzuh-logo.png.jpg';
 
 interface NavigationProps {
@@ -19,7 +19,6 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
     { name: 'Équipe', page: 'equipe' },
     { name: 'About', page: 'about' },
     { name: 'Collaborations', page: 'collaborations' },
-    { name: 'Admin', page: 'admin-login' },
   ];
 
   return (
@@ -51,6 +50,14 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
               className="ml-4 px-6 py-2 bg-[#E75480] text-white rounded-md hover:bg-white hover:text-[#E75480] transition-colors shadow-lg"
             >
               Réserver
+            </button>
+            {/* Admin Button - Highlighted */}
+            <button
+              onClick={() => onNavigate('admin-login')}
+              className="ml-2 px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition-colors shadow-lg flex items-center gap-2 border-2 border-white"
+            >
+              <Lock size={16} />
+              Admin
             </button>
           </div>
 
@@ -92,6 +99,17 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
               className="block w-full text-left px-4 py-2 mt-2 bg-[#E75480] text-white rounded-md hover:bg-white hover:text-[#E75480] transition-colors shadow-lg"
             >
               Réserver
+            </button>
+            {/* Admin Button Mobile - Highlighted */}
+            <button
+              onClick={() => {
+                onNavigate('admin-login');
+                setIsMenuOpen(false);
+              }}
+              className="block w-full text-left px-4 py-2 mt-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition-colors shadow-lg flex items-center gap-2 border-2 border-white"
+            >
+              <Lock size={16} />
+              Admin
             </button>
           </div>
         )}

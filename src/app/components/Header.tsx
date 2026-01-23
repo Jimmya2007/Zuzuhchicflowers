@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Lock, ShoppingCart } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
 import logoImage from '@/assets/zuzuh-logo.png.jpg';
+import { useCart } from '@/utils/CartContext';
 
 interface HeaderProps {
   currentPage: string;
@@ -10,6 +11,8 @@ interface HeaderProps {
 
 export function Header({ currentPage, onNavigate }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { getCartCount, setIsCartOpen } = useCart();
+  const cartCount = getCartCount();
 
   const menuItems = [
     { id: 'home', label: 'Home' },
@@ -53,6 +56,27 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
             >
               Réserver
             </Button>
+            {/* Admin Button */}
+            <button
+              onClick={() => onNavigate('admin')}
+              className="ml-4 p-2 hover:bg-white/20 rounded-full transition-colors border-2 border-white"
+              title="Admin"
+            >
+              <Lock className="w-6 h-6 text-white" />
+            </button>
+            {/* Shopping Cart Button */}
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className="relative ml-2 p-2 hover:bg-white/20 rounded-full transition-colors"
+              title="Panier"
+            >
+              <ShoppingCart className="w-6 h-6 text-white" />
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
+                  {cartCount}
+                </span>
+              )}
+            </button>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -90,6 +114,26 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
                 className="bg-[#E75480] hover:bg-[#d64575] text-white mx-4"
               >
                 Réserver
+              </Button>
+              <Button
+                onClick={() => {
+                  onNavigate('admin');
+                  setMobileMenuOpen(false);
+                }}
+                className="bg-[#E75480] hover:bg-[#d43d6a] text-white mx-4 border-2 border-white shadow-lg flex items-center justify-center gap-2"
+              >
+                <Lock size={20} />
+                Admin
+              </Button>
+              <Button
+                onClick={() => {
+                  setIsCartOpen(true);
+                  setMobileMenuOpen(false);
+                }}
+                className="bg-white hover:bg-gray-100 text-[#E75480] mx-4 flex items-center justify-center gap-2"
+              >
+                <ShoppingCart size={20} />
+                Panier {cartCount > 0 && `(${cartCount})`}
               </Button>
             </div>
           </nav>

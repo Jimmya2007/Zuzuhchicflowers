@@ -1,6 +1,9 @@
-import { Heart, Gift, Sparkles, Camera } from 'lucide-react';
+import { Heart, Gift, Sparkles, Camera, ShoppingCart, AlertCircle } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
 import { ImageWithFallback } from '@/app/components/figma/ImageWithFallback';
+import { useCart } from '@/utils/CartContext';
+import { usePayment } from '@/utils/PaymentContext';
+import { toast } from 'sonner';
 
 // Import des images de packages
 import package1 from '@/assets/package_1.jpeg';
@@ -72,12 +75,46 @@ import nouvo41 from '@/assets/nouvo41.jpg';
 import nouvo40 from '@/assets/nouvo40.jpg';
 import nouvo42 from '@/assets/nouvo42.jpg';
 import nouvo43 from '@/assets/nouvo43.jpg';
-import nouvo45 from '@/assets/nouvo45.jpg';import nouvo45 from '@/assets/nouvo45.jpg';
+import nouvo45 from '@/assets/nouvo45.jpg';
+import nouvo47 from '@/assets/nouvo47.jpg';
+
 interface PackagesPageProps {
   onNavigate: (page: string) => void;
 }
 
 export function PackagesPage({ onNavigate }: PackagesPageProps) {
+  const { addToCart } = useCart();
+  const { isPaymentEnabled } = usePayment();
+
+  const handleAddToCart = (pkg: typeof packages[0]) => {
+    if (!isPaymentEnabled) {
+      toast.error('Le système de paiement est temporairement indisponible. Veuillez utiliser le formulaire de réservation.');
+      return;
+    }
+    addToCart({
+      id: pkg.id,
+      name: pkg.name,
+      price: pkg.price,
+      priceNumeric: 0,
+      currency: 'HTG',
+      image: pkg.image,
+      category: 'Package',
+    });
+    
+    toast.success('🛒 Ajouté au panier!', {
+      description: pkg.name,
+      duration: 3000,
+      style: {
+        background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: '16px',
+        border: 'none',
+        boxShadow: '0 10px 25px rgba(16, 185, 129, 0.4)',
+      },
+    });
+  };
+
   const packages = [
     {
       id: 1,
@@ -206,7 +243,7 @@ export function PackagesPage({ onNavigate }: PackagesPageProps) {
       tag: "Bestseller"
     },
     {
-      id: 16,
+      id: 17,
       name: "Pink Paradise",
       description: " ",
       price: "8750 Gdes",
@@ -762,18 +799,37 @@ export function PackagesPage({ onNavigate }: PackagesPageProps) {
                   </ul>
 
                   {/* Price & CTA */}
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-4 border-t border-[#FADADD]">
+                  <div className="space-y-3 pt-4 border-t border-[#FADADD]">
                     <div>
                       <p className="text-sm text-[#555555]">Prix</p>
                       <p className="text-xl md:text-2xl text-[#E75480] break-words">{pkg.price}</p>
                     </div>
-                    <Button 
-                      onClick={() => onNavigate('reservation')}
-                      className="bg-[#F48FB1] hover:bg-[#E75480] text-white text-sm md:text-base w-full sm:w-auto"
-                    >
-                      <Gift className="w-4 h-4 mr-2" />
-                      Réserver
-                    </Button>
+                    <div className="flex gap-2">
+                      <Button 
+                        onClick={() => handleAddToCart(pkg)}
+                        disabled={!isPaymentEnabled}
+                        className={`flex-1 transition-all duration-300 ${
+                          isPaymentEnabled 
+                            ? 'bg-gradient-to-r from-[#F48FB1] to-[#E75480] hover:from-[#E75480] hover:to-[#D63A6A] text-white shadow-lg hover:shadow-xl transform hover:scale-105'
+                            : 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-60'
+                        }`}
+                      >
+                        {isPaymentEnabled ? (
+                          <ShoppingCart className="w-4 h-4 mr-2" />
+                        ) : (
+                          <AlertCircle className="w-4 h-4 mr-2" />
+                        )}
+                        {isPaymentEnabled ? 'Ajouter' : 'Indisponible'}
+                      </Button>
+                      <Button 
+                        onClick={() => onNavigate('reservation')}
+                        variant="outline"
+                        className="flex-1 border-2 border-[#F48FB1] text-[#E75480] hover:bg-[#F48FB1] hover:text-white transition-all duration-300"
+                      >
+                        <Gift className="w-4 h-4 mr-2" />
+                        Réserver
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>

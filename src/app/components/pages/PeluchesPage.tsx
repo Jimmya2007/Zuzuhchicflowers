@@ -1,6 +1,9 @@
-import { Camera, Heart } from 'lucide-react';
+import { Camera, Heart, ShoppingCart, AlertCircle } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
 import { ImageWithFallback } from '@/app/components/figma/ImageWithFallback';
+import { useCart } from '@/utils/CartContext';
+import { usePayment } from '@/utils/PaymentContext';
+import { toast } from 'sonner';
 
 // Import des images de peluches
 import peluche1 from '@/assets/peluche_1.jpeg';
@@ -52,6 +55,38 @@ interface PeluchesPageProps {
 }
 
 export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
+  const { addToCart } = useCart();
+  const { isPaymentEnabled } = usePayment();
+
+  const handleAddToCart = (peluche: typeof peluches[0]) => {
+    if (!isPaymentEnabled) {
+      toast.error('Le système de paiement est temporairement indisponible. Veuillez utiliser le formulaire de réservation.');
+      return;
+    }
+    addToCart({
+      id: peluche.id,
+      name: peluche.name,
+      price: peluche.price,
+      priceNumeric: 0,
+      currency: 'HTG',
+      image: peluche.image,
+      category: 'Peluche',
+    });
+    
+    toast.success('🛒 Ajouté au panier!', {
+      description: peluche.name,
+      duration: 3000,
+      style: {
+        background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: '16px',
+        border: 'none',
+        boxShadow: '0 10px 25px rgba(16, 185, 129, 0.4)',
+      },
+    });
+  };
+
   const peluches = [
     {
       id: 1,
@@ -495,13 +530,32 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
                   {/* Price */}
                   <p className="text-xl text-[#E75480] font-bold">{peluche.price}</p>
 
-                  {/* CTA */}
-                  <Button 
-                    onClick={() => onNavigate('reservation')}
-                    className="w-full bg-[#F48FB1] hover:bg-[#E75480] text-white"
-                  >
-                    Réserver
-                  </Button>
+                  {/* CTAs */}
+                  <div className="flex gap-2">
+                    <Button 
+                      onClick={() => handleAddToCart(peluche)}
+                      disabled={!isPaymentEnabled}
+                      className={`flex-1 transition-all duration-300 ${
+                        isPaymentEnabled 
+                          ? 'bg-gradient-to-r from-[#F48FB1] to-[#E75480] hover:from-[#E75480] hover:to-[#D63A6A] text-white shadow-lg hover:shadow-xl transform hover:scale-105'
+                          : 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-60'
+                      }`}
+                    >
+                      {isPaymentEnabled ? (
+                        <ShoppingCart className="w-4 h-4 mr-2" />
+                      ) : (
+                        <AlertCircle className="w-4 h-4 mr-2" />
+                      )}
+                      {isPaymentEnabled ? 'Ajouter' : 'Indisponible'}
+                    </Button>
+                    <Button 
+                      onClick={() => onNavigate('reservation')}
+                      variant="outline"
+                      className="flex-1 border-2 border-[#F48FB1] text-[#E75480] hover:bg-[#F48FB1] hover:text-white transition-all duration-300"
+                    >
+                      Réserver
+                    </Button>
+                  </div>
                 </div>
               </div>
             ))}

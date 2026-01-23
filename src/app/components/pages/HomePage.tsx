@@ -17,7 +17,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
       <section className="relative bg-gradient-to-br from-[#FADADD] via-white to-[#FADADD] py-20">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
+            <div className="space-y-6 lg:order-1 order-1">
               <div className="inline-block bg-[#F48FB1] text-white px-4 py-2 rounded-full text-sm">
                 ✨ Spécial Saint-Valentin 2026
               </div>
@@ -28,7 +28,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 Transformez vos émotions en créations florales d'exception. 
                 Bouquets élégants, peluches raffinées et packages romantiques pour célébrer l'amour.
               </p>
-              <div className="flex flex-wrap gap-4">
+              <div className="hidden lg:flex flex-wrap gap-4">
                 <Button 
                   onClick={() => onNavigate('packages')}
                   className="bg-[#E75480] hover:bg-[#d64575] text-white px-8 py-6 text-lg"
@@ -44,13 +44,29 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 </Button>
               </div>
             </div>
-            <div className="relative">
+            <div className="relative lg:order-2 order-2">
               <div className="absolute inset-0 bg-[#F48FB1] rounded-full opacity-20 blur-3xl"></div>
               <img 
                 src={heroImage}
                 alt="Elegant Roses ZUZUH"
                 className="relative rounded-2xl shadow-2xl w-full h-[500px] object-cover"
               />
+              {/* Mobile buttons overlaid on image */}
+              <div className="lg:hidden absolute bottom-6 left-4 right-4 flex flex-col gap-3">
+                <Button 
+                  onClick={() => onNavigate('packages')}
+                  className="bg-[#E75480] hover:bg-[#d64575] text-white px-6 py-4 text-base w-full shadow-xl"
+                >
+                  Découvrir nos Packages
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </Button>
+                <Button 
+                  onClick={() => onNavigate('reservation')}
+                  className="bg-white hover:bg-gray-50 text-[#E75480] border-2 border-[#E75480] px-6 py-4 text-base w-full shadow-xl"
+                >
+                  Réserver maintenant
+                </Button>
+              </div>
             </div>
           </div>
         </div>

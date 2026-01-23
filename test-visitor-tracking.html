@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visitor Tracking Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            color: #333;
+        }
+        h1 {
+            color: #667eea;
+            margin-top: 0;
+            text-align: center;
+        }
+        .test-section {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .success {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+        .error {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px 5px;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+        }
+        #output {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .log-entry {
+            margin: 5px 0;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        .log-success { color: #4ade80; }
+        .log-error { color: #f87171; }
+        .log-info { color: #60a5fa; }
+        .log-warning { color: #fbbf24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Visitor Tracking System Test</h1>
+        
+        <div class="test-section">
+            <h3>📊 Current Statistics</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Visitors</div>
+                    <div class="stat-value" id="totalVisitors">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Today's Visitors</div>
+                    <div class="stat-value" id="todayVisitors">-</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>🧪 Test Actions</h3>
+            <button onclick="testTrackVisit()">📤 Track a Visit</button>
+            <button onclick="testGetTotalVisitors()">📊 Get Total Visitors</button>
+            <button onclick="testGetTodayVisitors()">📅 Get Today's Visitors</button>
+            <button onclick="testGetAllStats()">📈 Get All Stats</button>
+            <button onclick="testCheckDatabase()">🗄️ Check Database</button>
+            <button onclick="clearOutput()">🗑️ Clear Log</button>
+        </div>
+
+        <div class="test-section">
+            <h3>📝 Console Output</h3>
+            <div id="output"></div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration - Update these with your Supabase details
+        const PROJECT_ID = 'sbovtiakuigihbkjgnmo';
+        const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNib3Z0aWFrdWlnaWhia2pnbm1vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzcyODA3NTksImV4cCI6MjA1Mjg1Njc1OX0.HsQQMlhNi3qBiU59n4h6fkZkxJt0Yy17Rm0gJlWWPCM';
+        const SUPABASE_URL = `https://${PROJECT_ID}.supabase.co`;
+
+        function log(message, type = 'info') {
+            const output = document.getElementById('output');
+            const timestamp = new Date().toLocaleTimeString();
+            const className = `log-${type}`;
+            const icon = {
+                success: '✅',
+                error: '❌',
+                info: 'ℹ️',
+                warning: '⚠️'
+            }[type] || 'ℹ️';
+            
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${className}`;
+            entry.textContent = `[${timestamp}] ${icon} ${message}`;
+            output.appendChild(entry);
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function clearOutput() {
+            document.getElementById('output').innerHTML = '';
+            log('Console cleared', 'info');
+        }
+
+        async function testTrackVisit() {
+            try {
+                log('📤 Tracking page visit...', 'info');
+                
+                const visitorData = {
+                    user_agent: navigator.userAgent,
+                    page_url: window.location.href,
+                    referrer: document.referrer || 'direct',
+                    visit_date: new Date().toISOString().split('T')[0],
+                };
+
+                log(`Visitor data: ${JSON.stringify(visitorData, null, 2)}`, 'info');
+
+                const response = await fetch(
+                    `${SUPABASE_URL}/rest/v1/visitors`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'apikey': ANON_KEY,
+                            'Authorization': `Bearer ${ANON_KEY}`,
+                            'Prefer': 'return=minimal',
+                        },
+                        body: JSON.stringify(visitorData),
+                    }
+                );
+
+                if (response.ok) {
+                    log('✅ Visit tracked successfully!', 'success');
+                    // Refresh stats
+                    setTimeout(testGetAllStats, 500);
+                } else {
+                    const errorText = await response.text();
+                    log(`❌ Failed to track visit: ${response.status} - ${errorText}`, 'error');
+                }
+            } catch (error) {
+                log(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testGetTotalVisitors() {
+            try {
+                log('📊 Fetching total visitors...', 'info');
+                
+                const response = await fetch(
+                    `${SUPABASE_URL}/rest/v1/visitors?select=count`,
+                    {
+                        headers: {
+                            'apikey': ANON_KEY,
+                            'Authorization': `Bearer ${ANON_KEY}`,
+                            'Range': '0-0',
+                        },
+                    }
+                );
+
+                if (response.ok) {
+                    const range = response.headers.get('content-range');
+                    if (range) {
+                        const total = parseInt(range.split('/')[1]);
+                        document.getElementById('totalVisitors').textContent = total;
+                        log(`✅ Total visitors: ${total}`, 'success');
+                    }
+                } else {
+                    const errorText = await response.text();
+                    log(`❌ Failed to get total visitors: ${response.status} - ${errorText}`, 'error');
+                }
+            } catch (error) {
+                log(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testGetTodayVisitors() {
+            try {
+                log('📅 Fetching today\'s visitors...', 'info');
+                
+                const today = new Date().toISOString().split('T')[0];
+                
+                const response = await fetch(
+                    `${SUPABASE_URL}/rest/v1/visitors?select=count&visit_date=eq.${today}`,
+                    {
+                        headers: {
+                            'apikey': ANON_KEY,
+                            'Authorization': `Bearer ${ANON_KEY}`,
+                            'Range': '0-0',
+                        },
+                    }
+                );
+
+                if (response.ok) {
+                    const range = response.headers.get('content-range');
+                    if (range) {
+                        const total = parseInt(range.split('/')[1]);
+                        document.getElementById('todayVisitors').textContent = total;
+                        log(`✅ Today's visitors: ${total}`, 'success');
+                    }
+                } else {
+                    const errorText = await response.text();
+                    log(`❌ Failed to get today's visitors: ${response.status} - ${errorText}`, 'error');
+                }
+            } catch (error) {
+                log(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testGetAllStats() {
+            await testGetTotalVisitors();
+            await testGetTodayVisitors();
+        }
+
+        async function testCheckDatabase() {
+            try {
+                log('🗄️ Checking database connection...', 'info');
+                
+                const response = await fetch(
+                    `${SUPABASE_URL}/rest/v1/visitors?select=*&order=created_at.desc&limit=5`,
+                    {
+                        headers: {
+                            'apikey': ANON_KEY,
+                            'Authorization': `Bearer ${ANON_KEY}`,
+                        },
+                    }
+                );
+
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✅ Database connected! Found ${data.length} recent visits`, 'success');
+                    if (data.length > 0) {
+                        log(`Latest visit: ${JSON.stringify(data[0], null, 2)}`, 'info');
+                    }
+                } else {
+                    const errorText = await response.text();
+                    log(`❌ Database check failed: ${response.status} - ${errorText}`, 'error');
+                    
+                    if (response.status === 401 || response.status === 403) {
+                        log('⚠️ Permission issue detected! Check RLS policies', 'warning');
+                    }
+                }
+            } catch (error) {
+                log(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        // Auto-load stats on page load
+        window.addEventListener('load', () => {
+            log('🚀 Visitor Tracking Test initialized', 'success');
+            log(`Project ID: ${PROJECT_ID}`, 'info');
+            log(`Supabase URL: ${SUPABASE_URL}`, 'info');
+            testGetAllStats();
+        });
+    </script>
+</body>
+</html>
