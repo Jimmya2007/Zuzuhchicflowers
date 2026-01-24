@@ -136,7 +136,7 @@ export default function App() {
   return (
     <PaymentProvider>
       <CartProvider>
-        <div className="min-h-screen flex flex-col">
+        <div className="min-h-screen flex flex-col overflow-x-hidden">
           {!isAdminPage && <PaymentUnavailableBanner />}
           {!isAdminPage && <Header currentPage={currentPage} onNavigate={handleNavigate} />}
           <main className={isAdminPage ? '' : 'flex-1'}>

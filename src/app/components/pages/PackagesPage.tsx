@@ -804,11 +804,11 @@ export function PackagesPage({ onNavigate }: PackagesPageProps) {
                       <p className="text-sm text-[#555555]">Prix</p>
                       <p className="text-xl md:text-2xl text-[#E75480] break-words">{pkg.price}</p>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex flex-col sm:flex-row gap-2 sm:gap-2">
                       <Button 
                         onClick={() => handleAddToCart(pkg)}
                         disabled={!isPaymentEnabled}
-                        className={`flex-1 transition-all duration-300 ${
+                        className={`w-full sm:flex-1 transition-all duration-300 ${
                           isPaymentEnabled 
                             ? 'bg-gradient-to-r from-[#F48FB1] to-[#E75480] hover:from-[#E75480] hover:to-[#D63A6A] text-white shadow-lg hover:shadow-xl transform hover:scale-105'
                             : 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-60'
@@ -824,7 +824,7 @@ export function PackagesPage({ onNavigate }: PackagesPageProps) {
                       <Button 
                         onClick={() => onNavigate('reservation')}
                         variant="outline"
-                        className="flex-1 border-2 border-[#F48FB1] text-[#E75480] hover:bg-[#F48FB1] hover:text-white transition-all duration-300"
+                        className="w-full sm:flex-1 border-2 border-[#F48FB1] text-[#E75480] hover:bg-[#F48FB1] hover:text-white transition-all duration-300"
                       >
                         <Gift className="w-4 h-4 mr-2" />
                         Réserver
