@@ -1,10 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AlertTriangle, X, Heart, Clock } from 'lucide-react';
 import { usePayment } from '@/utils/PaymentContext';
 
 export function PaymentUnavailableBanner() {
   const { isPaymentEnabled, paymentDisabledMessage } = usePayment();
   const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    // Auto-hide banner after 5 seconds (5000 milliseconds)
+    const timer = setTimeout(() => {
+      setIsVisible(false);
+    }, 5000);
+
+    // Cleanup timer on unmount
+    return () => clearTimeout(timer);
+  }, []);
 
   if (isPaymentEnabled || !isVisible) return null;
 
