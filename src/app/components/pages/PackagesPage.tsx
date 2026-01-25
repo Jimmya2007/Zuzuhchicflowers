@@ -129,7 +129,7 @@ export function PackagesPage({ onNavigate }: PackagesPageProps) {
       id: 2,
       name: "Tendresse Rose",
       description: "Composition délicate de roses roses avec adorable peluche",
-      price: "5000 Gdes",
+      price: "7250 Gdes",
       image: package2,
       features: ["vin rouge", "chocolat coeur de roses", "carte", "Peluche 32 cm", "Emballage"],
       tag: "Populaire"
@@ -773,7 +773,7 @@ export function PackagesPage({ onNavigate }: PackagesPageProps) {
                   <ImageWithFallback 
                     src={pkg.image}
                     alt={pkg.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500"
                   />
                   {pkg.tag && (
                     <div className="absolute top-4 right-4 bg-[#E75480] text-white px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm">
