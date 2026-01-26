@@ -37,6 +37,7 @@ interface Reservation {
   email?: string;
   phone: string;
   product: string;
+  price?: number;
   message?: string;
   status: string;
   created_at: string;
@@ -471,9 +472,9 @@ function ValentineDashboard({ onNavigate, userName = 'Admin', onLogout }: Valent
                           </div>
                           <div>
                             <p className="font-semibold text-gray-900">{order.customer_name}</p>
-                            <p className="text-xs text-gray-500 flex items-center gap-1">
+                            <a href={`tel:${order.customer_phone}`} className="text-xs text-blue-600 hover:text-blue-800 flex items-center gap-1 hover:underline">
                               <Phone className="w-3 h-3" /> {order.customer_phone}
-                            </p>
+                            </a>
                           </div>
                         </div>
                         <div className="text-right">
@@ -531,13 +532,14 @@ function ValentineDashboard({ onNavigate, userName = 'Admin', onLogout }: Valent
                           </div>
                           <div>
                             <p className="font-semibold text-gray-900">{res.customer_name}</p>
-                            <p className="text-xs text-gray-500 flex items-center gap-1">
+                            <a href={`tel:${res.phone}`} className="text-xs text-blue-600 hover:text-blue-800 flex items-center gap-1 hover:underline">
                               <Phone className="w-3 h-3" /> {res.phone}
-                            </p>
+                            </a>
                           </div>
                         </div>
                         <div className="text-right">
                           <p className="text-sm text-gray-700 font-medium mb-1">{res.product}</p>
+                          {res.price && <p className="text-xs text-green-600 font-semibold">{res.price.toLocaleString()} Gdes</p>}
                           {getStatusBadge(res.status)}
                         </div>
                       </div>
@@ -593,9 +595,9 @@ function ValentineDashboard({ onNavigate, userName = 'Admin', onLogout }: Valent
                 </div>
                 <div>
                   <p className="font-bold text-xl text-gray-900">{selectedOrder.customer_name}</p>
-                  <div className="flex items-center gap-2 text-gray-600 text-sm">
+                  <a href={`tel:${selectedOrder.customer_phone}`} className="flex items-center gap-2 text-blue-600 hover:text-blue-800 text-sm hover:underline">
                     <Phone className="w-4 h-4" /> {selectedOrder.customer_phone}
-                  </div>
+                  </a>
                 </div>
               </div>
               
@@ -664,9 +666,9 @@ function ValentineDashboard({ onNavigate, userName = 'Admin', onLogout }: Valent
                 </div>
                 <div>
                   <p className="font-bold text-xl text-gray-900">{selectedReservation.customer_name}</p>
-                  <div className="flex items-center gap-2 text-gray-600 text-sm">
+                  <a href={`tel:${selectedReservation.phone}`} className="flex items-center gap-2 text-blue-600 hover:text-blue-800 text-sm hover:underline">
                     <Phone className="w-4 h-4" /> {selectedReservation.phone}
-                  </div>
+                  </a>
                 </div>
               </div>
               
@@ -679,6 +681,11 @@ function ValentineDashboard({ onNavigate, userName = 'Admin', onLogout }: Valent
               <div className="bg-purple-50 p-4 rounded-xl">
                 <p className="text-sm text-purple-600 font-medium">Produit</p>
                 <p className="text-xl font-bold text-purple-700">{selectedReservation.product}</p>
+                {selectedReservation.price && (
+                  <p className="text-lg text-green-600 font-semibold mt-2">
+                    Prix: {selectedReservation.price.toLocaleString()} Gdes
+                  </p>
+                )}
               </div>
               
               {selectedReservation.message && (

@@ -17,6 +17,7 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
     phone: '',
     email: '',
     product: '',
+    price: '',
     message: ''
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -62,6 +63,7 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
             email: formData.email,
             phone: formData.phone,
             product: formData.product || 'Non spécifié',
+            price: formData.price ? parseFloat(formData.price) : null,
             message: `${formData.message}\n\nAdresse: ${formData.address}`,
             reservation_date: new Date().toISOString().split('T')[0],
             reservation_time: new Date().toTimeString().split(' ')[0],
@@ -86,6 +88,7 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
             phone: '',
             email: '',
             product: '',
+            price: '',
             message: ''
           });
           setImageFile(null);
@@ -238,6 +241,28 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
               />
               <p className="text-sm text-[#555555] mt-1">
                 💡 Astuce: Indiquez le nom exact du produit que vous avez vu sur notre site
+              </p>
+            </div>
+
+            {/* Price */}
+            <div className="space-y-2">
+              <Label htmlFor="price" className="text-[#555555]">
+                Prix (Gdes) *
+              </Label>
+              <Input
+                id="price"
+                name="price"
+                type="number"
+                required
+                min="0"
+                step="0.01"
+                value={formData.price}
+                onChange={handleInputChange}
+                className="w-full border-[#F48FB1] focus:ring-[#E75480]"
+                placeholder="Ex: 5000, 7250..."
+              />
+              <p className="text-sm text-[#555555] mt-1">
+                💡 Indiquez le prix du produit en Gourdes (Gdes)
               </p>
             </div>
 
