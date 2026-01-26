@@ -16,6 +16,7 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
     address: '',
     phone: '',
     email: '',
+    product: '',
     message: ''
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -60,7 +61,7 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
             customer_name: formData.fullName,
             email: formData.email,
             phone: formData.phone,
-            product: 'Réservation depuis formulaire',
+            product: formData.product || 'Non spécifié',
             message: `${formData.message}\n\nAdresse: ${formData.address}`,
             reservation_date: new Date().toISOString().split('T')[0],
             reservation_time: new Date().toTimeString().split(' ')[0],
@@ -84,6 +85,7 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
             address: '',
             phone: '',
             email: '',
+            product: '',
             message: ''
           });
           setImageFile(null);
@@ -217,6 +219,26 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
                 className="w-full border-[#F48FB1] focus:ring-[#E75480]"
                 placeholder="votre.email@exemple.com"
               />
+            </div>
+
+            {/* Product */}
+            <div className="space-y-2">
+              <Label htmlFor="product" className="text-[#555555]">
+                Produit Désiré *
+              </Label>
+              <Input
+                id="product"
+                name="product"
+                type="text"
+                required
+                value={formData.product}
+                onChange={handleInputChange}
+                className="w-full border-[#F48FB1] focus:ring-[#E75480]"
+                placeholder="Ex: Romance Passion, Bouquet de Roses Rouges, Peluche Ours..."
+              />
+              <p className="text-sm text-[#555555] mt-1">
+                💡 Astuce: Indiquez le nom exact du produit que vous avez vu sur notre site
+              </p>
             </div>
 
             {/* Message */}
