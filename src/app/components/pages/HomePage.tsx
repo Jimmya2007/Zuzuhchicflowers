@@ -121,7 +121,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
       </section>
 
       {/* Special Promotion Section - Valentine's Packs */}
-      <section className="py-16 bg-gradient-to-br from-[#8B4049] via-[#6B3038] to-[#8B4049] relative overflow-hidden">
+      <section className="py-16 bg-gradient-to-br from-[#A85A6C] via-[#8B4A5A] to-[#9D5266] relative overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 left-10 w-32 h-32 bg-[#00BCD4] rounded-full blur-3xl"></div>
