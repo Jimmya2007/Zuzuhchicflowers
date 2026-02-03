@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Heart, Upload, CheckCircle, Camera, Loader2 } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
@@ -30,6 +30,27 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [productImageUrl, setProductImageUrl] = useState<string | null>(null);
+
+  // Load selected product data from sessionStorage on component mount
+  useEffect(() => {
+    const selectedProduct = sessionStorage.getItem('selectedProduct');
+    if (selectedProduct) {
+      try {
+        const productData = JSON.parse(selectedProduct);
+        setFormData(prev => ({
+          ...prev,
+          product: productData.name || '',
+          price: productData.price ? productData.price.replace(/[^0-9]/g, '') : ''
+        }));
+        setProductImageUrl(productData.image || null);
+        // Clear sessionStorage after loading
+        sessionStorage.removeItem('selectedProduct');
+      } catch (error) {
+        console.error('Error loading product data:', error);
+      }
+    }
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -57,7 +78,7 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
       
       let imageUrl = null;
       
-      // Upload image to Supabase Storage if provided
+      // Upload image to Supabase Storage if provided by user
       if (imageFile) {
         console.log('📸 Uploading image...');
         const fileExt = imageFile.name.split('.').pop();
@@ -85,6 +106,10 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
         
         imageUrl = urlData.publicUrl;
         console.log('✅ Image uploaded:', imageUrl);
+      } else if (productImageUrl) {
+        // If no custom image uploaded, use the product image URL
+        imageUrl = productImageUrl;
+        console.log('📸 Using product image:', imageUrl);
       }
       
       // Save reservation to database
@@ -268,45 +293,40 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
               />
             </div>
 
-            {/* Product */}
+            {/* Product - Auto-filled from product page */}
             <div className="space-y-2">
               <Label htmlFor="product" className="text-[#555555]">
-                Produit Désiré *
+                Produit Sélectionné *
               </Label>
-              <Input
-                id="product"
-                name="product"
-                type="text"
-                required
-                value={formData.product}
-                onChange={handleInputChange}
-                className="w-full border-[#F48FB1] focus:ring-[#E75480]"
-                placeholder="Ex: Romance Passion, Bouquet de Roses Rouges, Peluche Ours..."
-              />
+              <div className="relative">
+                <Input
+                  id="product"
+                  name="product"
+                  type="text"
+                  required
+                  value={formData.product}
+                  onChange={handleInputChange}
+                  className="w-full border-[#F48FB1] focus:ring-[#E75480] bg-purple-50"
+                  placeholder="Sélectionnez un produit depuis la page Packages"
+                />
+                {formData.product && (
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                    <span className="text-green-600 font-semibold">✓</span>
+                  </div>
+                )}
+              </div>
+              {formData.price && (
+                <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-3 rounded-lg border border-green-200">
+                  <p className="text-sm text-green-700 font-semibold flex items-center gap-2">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Prix: {formData.price} Gdes
+                  </p>
+                </div>
+              )}
               <p className="text-sm text-[#555555] mt-1">
-                💡 Astuce: Indiquez le nom exact du produit que vous avez vu sur notre site
-              </p>
-            </div>
-
-            {/* Price */}
-            <div className="space-y-2">
-              <Label htmlFor="price" className="text-[#555555]">
-                Prix (Gdes) *
-              </Label>
-              <Input
-                id="price"
-                name="price"
-                type="number"
-                required
-                min="0"
-                step="0.01"
-                value={formData.price}
-                onChange={handleInputChange}
-                className="w-full border-[#F48FB1] focus:ring-[#E75480]"
-                placeholder="Ex: 5000, 7250..."
-              />
-              <p className="text-sm text-[#555555] mt-1">
-                💡 Indiquez le prix du produit en Gourdes (Gdes)
+                💡 Astuce: Cliquez sur "Réserver" depuis la page Packages pour sélectionner automatiquement un produit
               </p>
             </div>
 

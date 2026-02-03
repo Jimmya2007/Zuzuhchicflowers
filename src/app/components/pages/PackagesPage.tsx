@@ -822,7 +822,17 @@ export function PackagesPage({ onNavigate }: PackagesPageProps) {
                         {isPaymentEnabled ? 'Ajouter' : 'Indisponible'}
                       </Button>
                       <Button 
-                        onClick={() => onNavigate('reservation')}
+                        onClick={() => {
+                          // Encode product data in URL parameters
+                          const productData = {
+                            name: pkg.name,
+                            price: pkg.price,
+                            image: pkg.image
+                          };
+                          // Store in sessionStorage for easy retrieval
+                          sessionStorage.setItem('selectedProduct', JSON.stringify(productData));
+                          onNavigate('reservation');
+                        }}
                         variant="outline"
                         className="w-full sm:flex-1 border-2 border-[#F48FB1] text-[#E75480] hover:bg-[#F48FB1] hover:text-white transition-all duration-300"
                       >
