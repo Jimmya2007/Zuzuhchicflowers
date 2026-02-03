@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Heart, Upload, CheckCircle, Camera, Loader2 } from 'lucide-react';
+import { Heart, CheckCircle, Loader2 } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
 import { Textarea } from '@/app/components/ui/textarea';
@@ -26,8 +26,6 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
     price: '',
     message: ''
   });
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [productImageUrl, setProductImageUrl] = useState<string | null>(null);
@@ -57,17 +55,6 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,41 +63,9 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
     try {
       console.log('📤 Submitting reservation to Supabase...');
       
-      let imageUrl = null;
-      
-      // Upload image to Supabase Storage if provided by user
-      if (imageFile) {
-        console.log('📸 Uploading image...');
-        const fileExt = imageFile.name.split('.').pop();
-        const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-        const filePath = `${fileName}`;
-        
-        const { data: uploadData, error: uploadError } = await supabase.storage
-          .from('reservation-images')
-          .upload(filePath, imageFile, {
-            cacheControl: '3600',
-            upsert: false
-          });
-        
-        if (uploadError) {
-          console.error('❌ Image upload error:', uploadError);
-          alert('Erreur lors du téléchargement de l\'image. Veuillez réessayer.');
-          setIsUploading(false);
-          return;
-        }
-        
-        // Get public URL
-        const { data: urlData } = supabase.storage
-          .from('reservation-images')
-          .getPublicUrl(filePath);
-        
-        imageUrl = urlData.publicUrl;
-        console.log('✅ Image uploaded:', imageUrl);
-      } else if (productImageUrl) {
-        // If no custom image uploaded, use the product image URL
-        imageUrl = productImageUrl;
-        console.log('📸 Using product image:', imageUrl);
-      }
+      // Use the product image URL directly
+      const imageUrl = productImageUrl;
+      console.log('📸 Using product image:', imageUrl);
       
       // Save reservation to database
       const response = await fetch(
@@ -158,8 +113,6 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
             price: '',
             message: ''
           });
-          setImageFile(null);
-          setImagePreview(null);
         }, 3000);
       } else {
         const errorText = await response.text();
@@ -345,46 +298,6 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
               />
             </div>
 
-            {/* Image Upload */}
-            <div className="space-y-2">
-              <Label htmlFor="productImage" className="text-[#555555]">
-                Capture d'Écran du Produit *
-              </Label>
-              <div className="border-2 border-dashed border-[#F48FB1] rounded-lg p-8 text-center hover:border-[#E75480] transition-colors">
-                <input
-                  id="productImage"
-                  type="file"
-                  accept="image/*"
-                  required
-                  onChange={handleImageChange}
-                  className="hidden"
-                />
-                <label htmlFor="productImage" className="cursor-pointer">
-                  {imagePreview ? (
-                    <div className="space-y-4">
-                      <img 
-                        src={imagePreview} 
-                        alt="Preview" 
-                        className="max-h-64 mx-auto rounded-lg shadow-md"
-                      />
-                      <p className="text-[#E75480]">Cliquez pour changer l'image</p>
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
-                      <Upload className="w-12 h-12 text-[#F48FB1] mx-auto" />
-                      <div>
-                        <p className="text-[#E75480] mb-1">
-                          Cliquez pour téléverser votre capture d'écran
-                        </p>
-                        <p className="text-sm text-[#555555]">
-                          JPG, PNG, ou JPEG (max 10MB)
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </label>
-              </div>
-            </div>
 
             {/* Submit Button */}
             <div className="pt-6">
