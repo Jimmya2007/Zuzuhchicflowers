@@ -157,14 +157,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 className="w-full h-auto object-contain group-hover:brightness-110 transition-all duration-500"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-6">
-                <p className="text-white text-lg font-semibold mb-2">Prix: 4000 - 13750 Gourdes</p>
-                <Button 
-                  onClick={() => onNavigate('packages')}
-                  className="bg-[#00BCD4] hover:bg-[#00ACC1] text-white w-full shadow-lg"
-                >
-                  Voir les Packs 1-12
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
+                <p className="text-white text-xl font-bold text-center">Prix: 4000 - 13750 Gourdes</p>
               </div>
             </div>
 
@@ -181,14 +174,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 className="w-full h-auto object-contain group-hover:brightness-110 transition-all duration-500"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-6">
-                <p className="text-white text-lg font-semibold mb-2">Prix: 11000 - 18000 Gourdes</p>
-                <Button 
-                  onClick={() => onNavigate('packages')}
-                  className="bg-[#00BCD4] hover:bg-[#00ACC1] text-white w-full shadow-lg"
-                >
-                  Voir les Packs 13-19
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
+                <p className="text-white text-xl font-bold text-center">Prix: 11000 - 18000 Gourdes</p>
               </div>
             </div>
           </div>
