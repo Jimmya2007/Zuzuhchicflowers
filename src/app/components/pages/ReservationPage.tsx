@@ -1,10 +1,16 @@
 import { useState } from 'react';
-import { Heart, Upload, CheckCircle, Camera } from 'lucide-react';
+import { Heart, Upload, CheckCircle, Camera, Loader2 } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
 import { Textarea } from '@/app/components/ui/textarea';
 import { Label } from '@/app/components/ui/label';
 import { projectId, publicAnonKey } from '@/utils/supabase/info';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  `https://${projectId}.supabase.co`,
+  publicAnonKey
+);
 
 interface ReservationPageProps {
   onNavigate: (page: string) => void;
@@ -23,6 +29,7 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -43,11 +50,44 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsUploading(true);
     
     try {
-      console.log('📤 Submitting reservation directly to Supabase...');
+      console.log('📤 Submitting reservation to Supabase...');
       
-      // Save reservation directly to Supabase REST API
+      let imageUrl = null;
+      
+      // Upload image to Supabase Storage if provided
+      if (imageFile) {
+        console.log('📸 Uploading image...');
+        const fileExt = imageFile.name.split('.').pop();
+        const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+        const filePath = `${fileName}`;
+        
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('reservation-images')
+          .upload(filePath, imageFile, {
+            cacheControl: '3600',
+            upsert: false
+          });
+        
+        if (uploadError) {
+          console.error('❌ Image upload error:', uploadError);
+          alert('Erreur lors du téléchargement de l\'image. Veuillez réessayer.');
+          setIsUploading(false);
+          return;
+        }
+        
+        // Get public URL
+        const { data: urlData } = supabase.storage
+          .from('reservation-images')
+          .getPublicUrl(filePath);
+        
+        imageUrl = urlData.publicUrl;
+        console.log('✅ Image uploaded:', imageUrl);
+      }
+      
+      // Save reservation to database
       const response = await fetch(
         `https://${projectId}.supabase.co/rest/v1/reservations`,
         {
@@ -64,6 +104,7 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
             phone: formData.phone,
             product: formData.product || 'Non spécifié',
             price: formData.price ? parseFloat(formData.price) : null,
+            image_url: imageUrl,
             message: `${formData.message}\n\nAdresse: ${formData.address}`,
             reservation_date: new Date().toISOString().split('T')[0],
             reservation_time: new Date().toTimeString().split(' ')[0],
@@ -78,6 +119,7 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
         const data = await response.json();
         console.log('✅ Reservation saved successfully!', data);
         setIsSubmitted(true);
+        setIsUploading(false);
         
         // Reset form after 3 seconds
         setTimeout(() => {
@@ -98,10 +140,12 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
         const errorText = await response.text();
         console.error('❌ Failed to save reservation. Status:', response.status, 'Error:', errorText);
         alert(`Erreur ${response.status}: ${errorText}\n\nVeuillez vérifier que tous les champs sont remplis.`);
+        setIsUploading(false);
       }
     } catch (error) {
       console.error('❌ Error submitting reservation:', error);
       alert(`Erreur réseau: ${error}\n\nVérifiez votre connexion Internet.`);
+      setIsUploading(false);
     }
   };
 
@@ -326,10 +370,20 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
             <div className="pt-6">
               <Button 
                 type="submit"
-                className="w-full bg-[#E75480] hover:bg-[#d64575] text-white py-6 text-lg"
+                disabled={isUploading}
+                className="w-full bg-[#E75480] hover:bg-[#d64575] text-white py-6 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Heart className="w-5 h-5 mr-2" />
-                Envoyer ma Réservation
+                {isUploading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                    Envoi en cours...
+                  </>
+                ) : (
+                  <>
+                    <Heart className="w-5 h-5 mr-2" />
+                    Envoyer ma Réservation
+                  </>
+                )}
               </Button>
             </div>
 

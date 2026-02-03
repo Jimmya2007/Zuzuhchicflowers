@@ -38,6 +38,7 @@ interface Reservation {
   phone: string;
   product: string;
   price?: number;
+  image_url?: string;
   message?: string;
   status: string;
   created_at: string;
@@ -51,6 +52,8 @@ function ValentineDashboard({ onNavigate, userName = 'Admin', onLogout }: Valent
   const [currentTime, setCurrentTime] = useState(new Date());
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [selectedReservation, setSelectedReservation] = useState<Reservation | null>(null);
+  const [lastOrderCount, setLastOrderCount] = useState(0);
+  const [lastReservationCount, setLastReservationCount] = useState(0);
 
   const stats = {
     totalRevenue: orders.reduce((sum, o) => sum + (o.total_amount || 0), 0),
@@ -72,6 +75,14 @@ function ValentineDashboard({ onNavigate, userName = 'Admin', onLogout }: Valent
 
   useEffect(() => {
     loadData();
+    
+    // Auto-refresh every 30 seconds to check for new orders/reservations
+    const refreshInterval = setInterval(() => {
+      console.log('🔄 Auto-refreshing data...');
+      loadData();
+    }, 30000); // 30 seconds
+    
+    return () => clearInterval(refreshInterval);
   }, []);
 
   const loadData = async () => {
@@ -89,14 +100,38 @@ function ValentineDashboard({ onNavigate, userName = 'Admin', onLogout }: Valent
       
       if (ordersRes.ok) {
         const ordersData = await ordersRes.json();
-        setOrders(Array.isArray(ordersData) ? ordersData : []);
+        const newOrders = Array.isArray(ordersData) ? ordersData : [];
+        
+        // Check for new orders and show notification
+        if (lastOrderCount > 0 && newOrders.length > lastOrderCount) {
+          const newOrdersCount = newOrders.length - lastOrderCount;
+          toast.success(`🎉 ${newOrdersCount} nouvelle(s) commande(s)!`, {
+            description: 'Consultez vos commandes ci-dessous',
+            duration: 5000,
+          });
+        }
+        
+        setOrders(newOrders);
+        setLastOrderCount(newOrders.length);
       } else {
         console.warn('Orders fetch failed:', ordersRes.status);
       }
       
       if (reservationsRes.ok) {
         const reservationsData = await reservationsRes.json();
-        setReservations(Array.isArray(reservationsData) ? reservationsData : []);
+        const newReservations = Array.isArray(reservationsData) ? reservationsData : [];
+        
+        // Check for new reservations and show notification
+        if (lastReservationCount > 0 && newReservations.length > lastReservationCount) {
+          const newReservationsCount = newReservations.length - lastReservationCount;
+          toast.success(`💝 ${newReservationsCount} nouvelle(s) réservation(s)!`, {
+            description: 'Consultez vos réservations ci-dessous',
+            duration: 5000,
+          });
+        }
+        
+        setReservations(newReservations);
+        setLastReservationCount(newReservations.length);
       } else {
         console.warn('Reservations fetch failed:', reservationsRes.status);
       }
@@ -687,6 +722,20 @@ function ValentineDashboard({ onNavigate, userName = 'Admin', onLogout }: Valent
                   </p>
                 )}
               </div>
+              
+              {selectedReservation.image_url && (
+                <div className="bg-gray-50 p-4 rounded-xl">
+                  <p className="text-sm text-gray-600 font-medium mb-3">Capture d'écran du produit</p>
+                  <img 
+                    src={selectedReservation.image_url} 
+                    alt="Produit demandé" 
+                    className="w-full h-auto rounded-lg shadow-md max-h-96 object-contain"
+                    onError={(e) => {
+                      e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODgiIGhlaWdodD0iODgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBvcGFjaXR5PSIuMyIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIzLjciPjxyZWN0IHg9IjE2IiB5PSIxNiIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNiIvPjxwYXRoIGQ9Im0xNiA1OCAxNi0xOCAzMiAzMiIvPjxjaXJjbGUgY3g9IjUzIiBjeT0iMzUiIHI9IjciLz48L3N2Zz4=';
+                    }}
+                  />
+                </div>
+              )}
               
               {selectedReservation.message && (
                 <div className="bg-gray-50 p-4 rounded-xl">
