@@ -560,19 +560,33 @@ function ValentineDashboard({ onNavigate, userName = 'Admin', onLogout }: Valent
                       className="p-4 hover:bg-purple-50/70 transition-all cursor-pointer group"
                       onClick={() => setSelectedReservation(res)}
                     >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-gradient-to-br from-purple-100 to-violet-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <Heart className="w-5 h-5 text-purple-600" />
-                          </div>
-                          <div>
-                            <p className="font-semibold text-gray-900">{res.customer_name}</p>
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-3 flex-1">
+                          {res.image_url ? (
+                            <div className="w-16 h-16 rounded-lg overflow-hidden border-2 border-purple-200 flex-shrink-0">
+                              <img 
+                                src={res.image_url} 
+                                alt="Produit" 
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                  e.currentTarget.parentElement!.innerHTML = '<div class="w-full h-full bg-gradient-to-br from-purple-100 to-violet-100 flex items-center justify-center"><svg class="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></div>';
+                                }}
+                              />
+                            </div>
+                          ) : (
+                            <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-violet-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                              <Heart className="w-8 h-8 text-purple-600" />
+                            </div>
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <p className="font-semibold text-gray-900 truncate">{res.customer_name}</p>
                             <a href={`tel:${res.phone}`} className="text-xs text-blue-600 hover:text-blue-800 flex items-center gap-1 hover:underline">
                               <Phone className="w-3 h-3" /> {res.phone}
                             </a>
                           </div>
                         </div>
-                        <div className="text-right">
+                        <div className="text-right flex-shrink-0">
                           <p className="text-sm text-gray-700 font-medium mb-1">{res.product}</p>
                           {res.price && <p className="text-xs text-green-600 font-semibold">{res.price.toLocaleString()} Gdes</p>}
                           {getStatusBadge(res.status)}
@@ -724,16 +738,34 @@ function ValentineDashboard({ onNavigate, userName = 'Admin', onLogout }: Valent
               </div>
               
               {selectedReservation.image_url && (
-                <div className="bg-gray-50 p-4 rounded-xl">
-                  <p className="text-sm text-gray-600 font-medium mb-3">Capture d'écran du produit</p>
-                  <img 
-                    src={selectedReservation.image_url} 
-                    alt="Produit demandé" 
-                    className="w-full h-auto rounded-lg shadow-md max-h-96 object-contain"
-                    onError={(e) => {
-                      e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODgiIGhlaWdodD0iODgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBvcGFjaXR5PSIuMyIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIzLjciPjxyZWN0IHg9IjE2IiB5PSIxNiIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNiIvPjxwYXRoIGQ9Im0xNiA1OCAxNi0xOCAzMiAzMiIvPjxjaXJjbGUgY3g9IjUzIiBjeT0iMzUiIHI9IjciLz48L3N2Zz4=';
-                    }}
-                  />
+                <div className="bg-gradient-to-br from-purple-50 to-violet-50 p-6 rounded-xl border-2 border-purple-200">
+                  <div className="flex items-center gap-2 mb-4">
+                    <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <p className="text-sm text-purple-700 font-bold uppercase tracking-wide">📸 Photo du Produit Demandé</p>
+                  </div>
+                  <div className="bg-white p-2 rounded-lg shadow-lg">
+                    <img 
+                      src={selectedReservation.image_url} 
+                      alt="Produit demandé" 
+                      className="w-full h-auto rounded-md max-h-[500px] object-contain"
+                      onError={(e) => {
+                        e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODgiIGhlaWdodD0iODgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBvcGFjaXR5PSIuMyIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIzLjciPjxyZWN0IHg9IjE2IiB5PSIxNiIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNiIvPjxwYXRoIGQ9Im0xNiA1OCAxNi0xOCAzMiAzMiIvPjxjaXJjbGUgY3g9IjUzIiBjeT0iMzUiIHI9IjciLz48L3N2Zz4=';
+                      }}
+                    />
+                  </div>
+                  <p className="text-xs text-purple-600 mt-3 text-center italic">
+                    Cliquez sur l'image pour l'agrandir dans un nouvel onglet
+                  </p>
+                  <a 
+                    href={selectedReservation.image_url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="block mt-2 text-center text-sm text-blue-600 hover:text-blue-800 hover:underline font-medium"
+                  >
+                    🔍 Ouvrir l'image en grand
+                  </a>
                 </div>
               )}
               
