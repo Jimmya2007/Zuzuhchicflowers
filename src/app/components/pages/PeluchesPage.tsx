@@ -549,7 +549,16 @@ export function PeluchesPage({ onNavigate }: PeluchesPageProps) {
                       {isPaymentEnabled ? 'Ajouter' : 'Indisponible'}
                     </Button>
                     <Button 
-                      onClick={() => onNavigate('reservation')}
+                      onClick={() => {
+                        // Store peluche data in sessionStorage for reservation form
+                        const productData = {
+                          name: peluche.name,
+                          price: peluche.price,
+                          image: peluche.image
+                        };
+                        sessionStorage.setItem('selectedProduct', JSON.stringify(productData));
+                        onNavigate('reservation');
+                      }}
                       variant="outline"
                       className="flex-1 border-2 border-[#F48FB1] text-[#E75480] hover:bg-[#F48FB1] hover:text-white transition-all duration-300"
                     >
