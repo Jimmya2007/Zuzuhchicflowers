@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Heart, CheckCircle, Loader2 } from 'lucide-react';
+import { Heart, CheckCircle, Loader2, Gift } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
 import { Textarea } from '@/app/components/ui/textarea';
@@ -144,7 +144,7 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
           <Heart className="w-16 h-16 mx-auto mb-4" />
           <h1 className="text-4xl md:text-5xl mb-4">Formulaire de Réservation</h1>
           <p className="text-xl max-w-3xl mx-auto text-white/90">
-            Remplissez ce formulaire avec la capture d'écran du produit de votre choix
+            Sélectionnez un produit depuis nos pages et remplissez vos informations
           </p>
         </div>
       </section>
@@ -154,13 +154,14 @@ export function ReservationPage({ onNavigate }: ReservationPageProps) {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
             <div className="flex items-start gap-4">
-              <Camera className="w-8 h-8 text-[#E75480] flex-shrink-0 mt-1" />
+              <Gift className="w-8 h-8 text-[#E75480] flex-shrink-0 mt-1" />
               <div className="space-y-2">
                 <h3 className="text-lg text-[#E75480]">Comment ça marche ?</h3>
                 <ol className="list-decimal list-inside space-y-2 text-[#555555]">
                   <li>Parcourez nos pages Packages, Peluches ou Bouquets</li>
-                  <li>Prenez une capture d'écran du produit qui vous intéresse</li>
-                  <li>Remplissez ce formulaire et téléversez votre capture d'écran</li>
+                  <li>Cliquez sur le bouton "Réserver" du produit qui vous intéresse</li>
+                  <li>Le produit et le prix seront automatiquement sélectionnés</li>
+                  <li>Remplissez vos informations et envoyez votre réservation</li>
                   <li>Notre équipe vous contactera pour finaliser votre commande</li>
                 </ol>
               </div>
