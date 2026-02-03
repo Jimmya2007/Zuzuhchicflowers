@@ -5,12 +5,6 @@ import { Input } from '@/app/components/ui/input';
 import { Textarea } from '@/app/components/ui/textarea';
 import { Label } from '@/app/components/ui/label';
 import { projectId, publicAnonKey } from '@/utils/supabase/info';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  `https://${projectId}.supabase.co`,
-  publicAnonKey
-);
 
 interface ReservationPageProps {
   onNavigate: (page: string) => void;
