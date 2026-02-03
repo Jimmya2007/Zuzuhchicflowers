@@ -1,10 +1,12 @@
-import { Heart, Gift, Sparkles, ArrowRight } from 'lucide-react';
+import { Heart, Gift, Sparkles, ArrowRight, Star } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
 import { ImageWithFallback } from '@/app/components/figma/ImageWithFallback';
 import heroImage from '@/assets/CEO.jpg';
 import bouquetsPreview from '@/assets/bouquet_7.jpeg';
 import peluchesPreview from '@/assets/peluche_1.jpeg';
 import packagesPreview from '@/assets/package_1.jpeg';
+import promoPacks1 from '@/assets/promo-packs-1.jpg';
+import promoPacks2 from '@/assets/promo-packs-2.jpg';
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
@@ -113,6 +115,92 @@ export function HomePage({ onNavigate }: HomePageProps) {
               <p className="text-[#555555]">
                 De la commande à la livraison, notre équipe vous accompagne pour créer le cadeau parfait.
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Special Promotion Section - Valentine's Packs */}
+      <section className="py-16 bg-gradient-to-br from-[#8B4049] via-[#6B3038] to-[#8B4049] relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 left-10 w-32 h-32 bg-[#00BCD4] rounded-full blur-3xl"></div>
+          <div className="absolute bottom-10 right-10 w-40 h-40 bg-[#F48FB1] rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 bg-[#00BCD4] text-white px-6 py-3 rounded-full mb-4 shadow-lg">
+              <Star className="w-5 h-5 fill-white" />
+              <span className="font-bold text-lg">OFFRES SPÉCIALES SAINT-VALENTIN</span>
+              <Star className="w-5 h-5 fill-white" />
+            </div>
+            <h2 className="text-3xl md:text-5xl text-white mb-4 font-bold">
+              Packs Exclusifs 2026
+            </h2>
+            <p className="text-white/90 text-lg md:text-xl max-w-3xl mx-auto">
+              Découvrez nos collections premium spécialement conçues pour la Saint-Valentin
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            {/* First Promo Image */}
+            <div className="group relative bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden shadow-2xl hover:shadow-[#00BCD4]/50 transition-all duration-500 hover:scale-105 border-2 border-white/10">
+              <div className="absolute top-4 right-4 z-10">
+                <div className="bg-[#00BCD4] text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg">
+                  Packs 1-12
+                </div>
+              </div>
+              <img 
+                src={promoPacks1}
+                alt="Packs Saint-Valentin 1-12"
+                className="w-full h-auto object-contain group-hover:brightness-110 transition-all duration-500"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-6">
+                <p className="text-white text-lg font-semibold mb-2">Prix: 4000 - 13750 Gourdes</p>
+                <Button 
+                  onClick={() => onNavigate('packages')}
+                  className="bg-[#00BCD4] hover:bg-[#00ACC1] text-white w-full shadow-lg"
+                >
+                  Voir les Packs 1-12
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Second Promo Image */}
+            <div className="group relative bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden shadow-2xl hover:shadow-[#00BCD4]/50 transition-all duration-500 hover:scale-105 border-2 border-white/10">
+              <div className="absolute top-4 right-4 z-10">
+                <div className="bg-[#00BCD4] text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg">
+                  Packs 13-19
+                </div>
+              </div>
+              <img 
+                src={promoPacks2}
+                alt="Packs Saint-Valentin 13-19"
+                className="w-full h-auto object-contain group-hover:brightness-110 transition-all duration-500"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-6">
+                <p className="text-white text-lg font-semibold mb-2">Prix: 11000 - 18000 Gourdes</p>
+                <Button 
+                  onClick={() => onNavigate('packages')}
+                  className="bg-[#00BCD4] hover:bg-[#00ACC1] text-white w-full shadow-lg"
+                >
+                  Voir les Packs 13-19
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* Contact Info */}
+          <div className="mt-12 text-center">
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 max-w-2xl mx-auto border border-white/20">
+              <p className="text-white text-lg mb-2">
+                <span className="font-bold text-[#00BCD4]">Pour Commander:</span>
+              </p>
+              <p className="text-white/90 text-xl font-bold mb-1">4373 1894</p>
+              <p className="text-white/80">#135 Ri Valye, Wanament</p>
             </div>
           </div>
         </div>
