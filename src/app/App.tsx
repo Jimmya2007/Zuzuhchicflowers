@@ -19,6 +19,7 @@ import { initVisitorTracking } from '@/utils/visitorTracker';
 import { CartProvider } from '@/utils/CartContext';
 import { PaymentProvider } from '@/utils/PaymentContext';
 import { ShoppingCart } from '@/app/components/ShoppingCart';
+import { VisitorCounter } from '@/app/components/ui/VisitorCounter';
 import { PaymentUnavailableBanner } from '@/app/components/PaymentUnavailableBanner';
 
 export default function App() {
@@ -136,7 +137,9 @@ export default function App() {
   return (
     <PaymentProvider>
       <CartProvider>
-        <div className="min-h-screen flex flex-col overflow-x-hidden">
+        <div className="min-h-screen bg-gray-50">
+          <Toaster position="top-right" richColors />
+          <VisitorCounter />
           {!isAdminPage && <PaymentUnavailableBanner />}
           {!isAdminPage && <Header currentPage={currentPage} onNavigate={handleNavigate} />}
           <main className={isAdminPage ? '' : 'flex-1'}>
