@@ -38,3 +38,26 @@ body {
   background-size: 200% 100%;
   animation: shimmer 2s linear infinite;
 }
+
+/* Floating hearts animation */
+@keyframes float-up {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-50vh) translateX(20px) rotate(180deg);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(-20px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.animate-float-up {
+  animation: float-up 12s ease-in-out infinite;
+}

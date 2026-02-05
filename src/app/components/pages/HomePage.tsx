@@ -1,6 +1,7 @@
 import { Heart, Gift, Sparkles, ArrowRight, Star } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
 import { ImageWithFallback } from '@/app/components/figma/ImageWithFallback';
+import { FloatingHearts } from '@/app/components/ui/FloatingHearts';
 import heroImage from '@/assets/CEO.jpg';
 import bouquetsPreview from '@/assets/bouquet_7.jpeg';
 import peluchesPreview from '@/assets/peluche_1.jpeg';
@@ -16,7 +17,9 @@ interface HomePageProps {
 
 export function HomePage({ onNavigate }: HomePageProps) {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
+      {/* Floating Hearts Animation */}
+      <FloatingHearts />
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-[#FADADD] via-white to-[#FADADD] py-20">
         <div className="container mx-auto px-4">
