@@ -7,6 +7,8 @@ import peluchesPreview from '@/assets/peluche_1.jpeg';
 import packagesPreview from '@/assets/package_1.jpeg';
 import promoPacks1 from '@/assets/promo-packs-1.jpg';
 import promoPacks2 from '@/assets/promo-packs-2.jpg';
+import promoPackages from '@/assets/promo-packages.jpg';
+import promoChocolat from '@/assets/promo-chocolat.jpg';
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
@@ -143,8 +145,8 @@ export function HomePage({ onNavigate }: HomePageProps) {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            {/* First Promo Image */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-7xl mx-auto">
+            {/* First Promo Image - Packs 1-12 */}
             <div className="group relative bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden shadow-2xl hover:shadow-[#00BCD4]/50 transition-all duration-500 hover:scale-105 border-2 border-white/10">
               <div className="absolute top-4 right-4 z-10">
                 <div className="bg-[#00BCD4] text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg">
@@ -156,12 +158,12 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 alt="Packs Saint-Valentin 1-12"
                 className="w-full h-auto object-contain group-hover:brightness-110 transition-all duration-500"
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-6">
-                <p className="text-white text-xl font-bold text-center">Prix: 4000 - 13750 Gourdes</p>
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4">
+                <p className="text-white text-lg font-bold text-center">Prix: 4000 - 13750 Gourdes</p>
               </div>
             </div>
 
-            {/* Second Promo Image */}
+            {/* Second Promo Image - Packs 13-19 */}
             <div className="group relative bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden shadow-2xl hover:shadow-[#00BCD4]/50 transition-all duration-500 hover:scale-105 border-2 border-white/10">
               <div className="absolute top-4 right-4 z-10">
                 <div className="bg-[#00BCD4] text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg">
@@ -173,8 +175,42 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 alt="Packs Saint-Valentin 13-19"
                 className="w-full h-auto object-contain group-hover:brightness-110 transition-all duration-500"
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-6">
-                <p className="text-white text-xl font-bold text-center">Prix: 11000 - 18000 Gourdes</p>
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4">
+                <p className="text-white text-lg font-bold text-center">Prix: 11000 - 18000 Gourdes</p>
+              </div>
+            </div>
+
+            {/* Third Promo Image - Packages */}
+            <div className="group relative bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden shadow-2xl hover:shadow-[#00BCD4]/50 transition-all duration-500 hover:scale-105 border-2 border-white/10">
+              <div className="absolute top-4 right-4 z-10">
+                <div className="bg-[#00BCD4] text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg">
+                  Packages
+                </div>
+              </div>
+              <img 
+                src={promoPackages}
+                alt="Packages avec Peluches"
+                className="w-full h-auto object-contain group-hover:brightness-110 transition-all duration-500"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4">
+                <p className="text-white text-lg font-bold text-center">Prix: 1700 - 8000 Gourdes</p>
+              </div>
+            </div>
+
+            {/* Fourth Promo Image - Chocolat */}
+            <div className="group relative bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden shadow-2xl hover:shadow-[#00BCD4]/50 transition-all duration-500 hover:scale-105 border-2 border-white/10">
+              <div className="absolute top-4 right-4 z-10">
+                <div className="bg-[#00BCD4] text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg">
+                  Chocolat
+                </div>
+              </div>
+              <img 
+                src={promoChocolat}
+                alt="Chocolat"
+                className="w-full h-auto object-contain group-hover:brightness-110 transition-all duration-500"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4">
+                <p className="text-white text-lg font-bold text-center">Prix: 650 - 3000 Gourdes</p>
               </div>
             </div>
           </div>
